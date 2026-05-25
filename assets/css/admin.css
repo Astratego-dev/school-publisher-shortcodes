@@ -1,0 +1,17 @@
+.spb-admin-page {
+    direction: rtl;
+}
+
+.spb-admin-page code {
+    direction: ltr;
+    display: inline-block;
+}
+
+.spb-admin-summary {
+    direction: rtl;
+}
+
+.spb-admin-summary ul {
+    list-style: disc;
+    padding-right: 22px;
+}

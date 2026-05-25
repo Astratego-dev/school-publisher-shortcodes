@@ -498,9 +498,246 @@
     padding: 22px;
 }
 
+.spb-sales {
+    --spb-sales-ink: #10231e;
+    --spb-sales-muted: #65766f;
+    --spb-sales-green: #168a68;
+    --spb-sales-dark: #043d33;
+    --spb-sales-mint: #dff8ea;
+    --spb-sales-line: #dce8df;
+    background: linear-gradient(180deg, #fbfdfb 0%, #eef6f0 100%);
+    color: var(--spb-sales-ink);
+    display: grid;
+    gap: 34px;
+    margin: 0 auto;
+    max-width: 1220px;
+    padding: 28px;
+}
+
+.spb-sales * {
+    box-sizing: border-box;
+}
+
+.spb-sales-hero {
+    align-items: center;
+    background:
+        linear-gradient(90deg, rgba(4, 61, 51, 0.10) 0%, rgba(4, 61, 51, 0.58) 46%, rgba(4, 61, 51, 0.88) 100%),
+        url("../img/literature-hero.png") center / cover no-repeat;
+    border-radius: 8px;
+    color: #fff;
+    display: grid;
+    gap: 34px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+    min-height: 560px;
+    padding: 46px;
+}
+
+.spb-sales-eyebrow {
+    color: #8ff0bd;
+    font-size: 14px;
+    font-weight: 900;
+    margin: 0 0 10px;
+}
+
+.spb-sales h1,
+.spb-sales h2,
+.spb-sales h3 {
+    color: inherit;
+    line-height: 1.16;
+    margin: 0;
+}
+
+.spb-sales h1 {
+    font-size: 54px;
+    max-width: 780px;
+}
+
+.spb-sales h2 {
+    font-size: 34px;
+}
+
+.spb-sales h3 {
+    font-size: 22px;
+}
+
+.spb-sales-hero p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 18px;
+    line-height: 1.8;
+    margin: 18px 0 0;
+    max-width: 760px;
+}
+
+.spb-sales-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.spb-sales-actions a {
+    background: #fff;
+    border-radius: 8px;
+    color: var(--spb-sales-dark);
+    font-weight: 900;
+    padding: 13px 18px;
+    text-decoration: none;
+}
+
+.spb-sales-actions a + a {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.spb-sales-hero__panel {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.16);
+    color: var(--spb-sales-ink);
+    padding: 22px;
+}
+
+.spb-sales-book {
+    background: linear-gradient(135deg, #eefaf3, #ffffff);
+    border: 1px solid var(--spb-sales-line);
+    border-right: 8px solid var(--spb-sales-green);
+    border-radius: 8px;
+    display: grid;
+    gap: 8px;
+    min-height: 220px;
+    padding: 24px;
+}
+
+.spb-sales-book span,
+.spb-sales-book small {
+    color: var(--spb-sales-muted);
+    font-weight: 800;
+}
+
+.spb-sales-book strong {
+    color: var(--spb-sales-dark);
+    font-size: 32px;
+    line-height: 1.15;
+}
+
+.spb-sales-hero__panel ul {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+}
+
+.spb-sales-hero__panel li {
+    background: #f6fbf8;
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+
+.spb-sales-strip {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.spb-sales-strip div,
+.spb-sales-grid article,
+.spb-sales-process {
+    background: #fff;
+    border: 1px solid var(--spb-sales-line);
+    border-radius: 8px;
+    box-shadow: 0 14px 38px rgba(16, 35, 30, 0.06);
+}
+
+.spb-sales-strip div {
+    display: grid;
+    gap: 5px;
+    padding: 20px;
+}
+
+.spb-sales-strip strong {
+    color: var(--spb-sales-dark);
+    font-size: 22px;
+}
+
+.spb-sales-strip span,
+.spb-sales-grid p,
+.spb-sales-process span {
+    color: var(--spb-sales-muted);
+    line-height: 1.7;
+}
+
+.spb-sales-section,
+.spb-sales-process {
+    display: grid;
+    gap: 20px;
+}
+
+.spb-sales-heading {
+    display: grid;
+    gap: 6px;
+}
+
+.spb-sales-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.spb-sales-grid article {
+    display: grid;
+    gap: 12px;
+    padding: 24px;
+}
+
+.spb-sales-grid article span {
+    color: var(--spb-sales-green);
+    font-weight: 900;
+}
+
+.spb-sales-process {
+    padding: 28px;
+}
+
+.spb-sales-process ol {
+    counter-reset: spb-process;
+    display: grid;
+    gap: 12px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.spb-sales-process li {
+    align-items: center;
+    border-top: 1px solid var(--spb-sales-line);
+    display: grid;
+    gap: 6px;
+    grid-template-columns: 64px minmax(0, 0.7fr) minmax(0, 1.3fr);
+    padding: 18px 0 4px;
+}
+
+.spb-sales-process li:before {
+    align-items: center;
+    background: var(--spb-sales-mint);
+    border-radius: 999px;
+    color: var(--spb-sales-dark);
+    content: counter(spb-process);
+    counter-increment: spb-process;
+    display: inline-flex;
+    font-weight: 900;
+    height: 42px;
+    justify-content: center;
+    width: 42px;
+}
+
 @media (max-width: 960px) {
     .spb-hero,
-    .spb-grid {
+    .spb-grid,
+    .spb-sales-hero,
+    .spb-sales-strip,
+    .spb-sales-grid {
         grid-template-columns: 1fr;
     }
 
@@ -547,6 +784,28 @@
 
     .spb-work-row span:nth-child(3),
     .spb-work-row span:nth-child(4) {
+        grid-column: 2;
+    }
+
+    .spb-sales {
+        padding: 14px;
+    }
+
+    .spb-sales-hero {
+        min-height: auto;
+        padding: 28px;
+    }
+
+    .spb-sales h1 {
+        font-size: 34px;
+    }
+
+    .spb-sales-process li {
+        align-items: start;
+        grid-template-columns: 48px minmax(0, 1fr);
+    }
+
+    .spb-sales-process li span {
         grid-column: 2;
     }
 }

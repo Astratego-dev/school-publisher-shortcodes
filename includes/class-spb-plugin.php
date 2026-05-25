@@ -38,6 +38,7 @@ class SPB_Plugin {
         add_action('manage_spb_play_posts_custom_column', array($this, 'render_play_column'), 10, 2);
         add_filter('manage_spb_book_request_posts_columns', array($this, 'request_columns'));
         add_action('manage_spb_book_request_posts_custom_column', array($this, 'render_request_column'), 10, 2);
+        add_shortcode('school_publisher_home', array($this, 'render_sales_home'));
         add_shortcode('school_book_builder', array($this, 'render_book_builder'));
         add_shortcode('school_book_request', array($this, 'render_book_request'));
         add_action('wp_ajax_spb_save_book_request', array($this, 'ajax_save_book_request'));
@@ -171,6 +172,9 @@ class SPB_Plugin {
             add_option('spb_pricing', array(
                 'base_price' => 20,
                 'page_price' => 0.7,
+                'base_pages' => 70,
+                'lower_page_threshold' => 5,
+                'upper_page_threshold' => 5,
                 'hardcover_price' => 12,
                 'fixed_price' => '',
                 'user_special_prices' => '',
@@ -183,6 +187,9 @@ class SPB_Plugin {
         return array(
             'base_price' => $this->money($value['base_price'] ?? 0),
             'page_price' => $this->money($value['page_price'] ?? 0),
+            'base_pages' => absint($value['base_pages'] ?? 0),
+            'lower_page_threshold' => absint($value['lower_page_threshold'] ?? 0),
+            'upper_page_threshold' => absint($value['upper_page_threshold'] ?? 0),
             'hardcover_price' => $this->money($value['hardcover_price'] ?? 0),
             'fixed_price' => $fixed_price === '' ? '' : $this->money($fixed_price),
             'user_special_prices' => sanitize_textarea_field($value['user_special_prices'] ?? ''),
@@ -446,6 +453,7 @@ class SPB_Plugin {
         echo '</div>';
         echo '<div class="spb-admin-panel"><h2>' . esc_html__('התחלה מהירה', 'school-publisher-shortcodes') . '</h2>';
         echo '<ol><li>' . esc_html__('מוסיפים כיתות ומחברים.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מעלים יצירות ומחזות ידנית או דרך מסך הייבוא.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מסמנים פריטים כפעילים כדי שיופיעו לבתי הספר.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('יוצרים עמוד באתר עם השורטקוד של הבונה.', 'school-publisher-shortcodes') . '</li></ol>';
+        echo '<p><strong>' . esc_html__('שורטקוד עמוד הבית השיווקי:', 'school-publisher-shortcodes') . '</strong> <code>[school_publisher_home]</code></p>';
         echo '<p><strong>' . esc_html__('שורטקוד בונה הספר:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_builder]</code></p>';
         echo '<p><strong>' . esc_html__('שורטקוד להצגת בקשה ציבורית:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_request]</code></p></div>';
         echo '</div>';
@@ -471,6 +479,83 @@ class SPB_Plugin {
         echo '</form></div></div>';
     }
 
+    public function render_sales_home() {
+        wp_enqueue_style('spb-frontend');
+
+        ob_start();
+        ?>
+        <div class="spb-sales" dir="rtl">
+            <section class="spb-sales-hero">
+                <div class="spb-sales-hero__copy">
+                    <p class="spb-sales-eyebrow"><?php esc_html_e('ספרות שנתית לבתי ספר', 'school-publisher-shortcodes'); ?></p>
+                    <h1><?php esc_html_e('בונים ספר ספרות מותאם לשכבה, בלי לרדוף אחרי עשרות מקורות', 'school-publisher-shortcodes'); ?></h1>
+                    <p><?php esc_html_e('מערכת שמאפשרת לרכזות ורכזי ספרות לבחור יצירות, שירים ומחזות מתוך מאגר מסודר לפי שכבה, בהתאם לתכנית ולהמלצות משרד החינוך, ולקבל ספר אחד ברור לתלמידי השנה.', 'school-publisher-shortcodes'); ?></p>
+                    <div class="spb-sales-actions">
+                        <a href="#spb-sales-process"><?php esc_html_e('איך זה עובד', 'school-publisher-shortcodes'); ?></a>
+                        <a href="#spb-sales-value"><?php esc_html_e('מה התלמידים מקבלים', 'school-publisher-shortcodes'); ?></a>
+                    </div>
+                </div>
+                <div class="spb-sales-hero__panel" aria-label="<?php esc_attr_e('תצוגת ספר לדוגמה', 'school-publisher-shortcodes'); ?>">
+                    <div class="spb-sales-book">
+                        <span><?php esc_html_e('ספר שכבת י׳', 'school-publisher-shortcodes'); ?></span>
+                        <strong><?php esc_html_e('שירה, סיפורת ומחזות', 'school-publisher-shortcodes'); ?></strong>
+                        <small><?php esc_html_e('70 עמודים · מחיר משוער מיידי · אישור אישי לפני הדפסה', 'school-publisher-shortcodes'); ?></small>
+                    </div>
+                    <ul>
+                        <li><?php esc_html_e('יצירות חובה ורשות במקום אחד', 'school-publisher-shortcodes'); ?></li>
+                        <li><?php esc_html_e('בחירה לפי שכבה וקטגוריה', 'school-publisher-shortcodes'); ?></li>
+                        <li><?php esc_html_e('קישור רכישה ייעודי לבית הספר', 'school-publisher-shortcodes'); ?></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="spb-sales-strip" id="spb-sales-value">
+                <div><strong><?php esc_html_e('ספר אחד', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('כל החומרים הנבחרים לשנה', 'school-publisher-shortcodes'); ?></span></div>
+                <div><strong><?php esc_html_e('בחירה פדגוגית', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('בהתאם לשכבה, לתכנית ולהעדפות הצוות', 'school-publisher-shortcodes'); ?></span></div>
+                <div><strong><?php esc_html_e('מחיר שקוף', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('סיכום עמודים ותמחור תוך כדי בנייה', 'school-publisher-shortcodes'); ?></span></div>
+            </section>
+
+            <section class="spb-sales-section">
+                <div class="spb-sales-heading">
+                    <p class="spb-sales-eyebrow"><?php esc_html_e('למה זה טוב לבית הספר', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('פחות לוגיסטיקה, יותר הוראה', 'school-publisher-shortcodes'); ?></h2>
+                </div>
+                <div class="spb-sales-grid">
+                    <article>
+                        <span>01</span>
+                        <h3><?php esc_html_e('בחירה מסודרת לפי שכבה', 'school-publisher-shortcodes'); ?></h3>
+                        <p><?php esc_html_e('הרכזת בוחרת מתוך מאגר שמאורגן לפי כיתות, קטגוריות, מחברים ויצירות פעילות בלבד.', 'school-publisher-shortcodes'); ?></p>
+                    </article>
+                    <article>
+                        <span>02</span>
+                        <h3><?php esc_html_e('שילוב חובה ורשות', 'school-publisher-shortcodes'); ?></h3>
+                        <p><?php esc_html_e('אפשר לשלב יצירות חובה עם בחירות שהצוות אוהב ללמד, בלי לאבד שליטה על היקף הספר.', 'school-publisher-shortcodes'); ?></p>
+                    </article>
+                    <article>
+                        <span>03</span>
+                        <h3><?php esc_html_e('ספר שמוכן לתלמידים', 'school-publisher-shortcodes'); ?></h3>
+                        <p><?php esc_html_e('אחרי אישור אישי, נוצר קישור ייעודי שבית הספר שולח לתלמידים לרכישה מרוכזת.', 'school-publisher-shortcodes'); ?></p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="spb-sales-process" id="spb-sales-process">
+                <div class="spb-sales-heading">
+                    <p class="spb-sales-eyebrow"><?php esc_html_e('תהליך העבודה', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('מהרכבת הספר ועד חלוקה בכיתה', 'school-publisher-shortcodes'); ?></h2>
+                </div>
+                <ol>
+                    <li><strong><?php esc_html_e('הרכזת בונה ספר', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('בחירת שכבה, מחזות ויצירות מתוך המאגר.', 'school-publisher-shortcodes'); ?></span></li>
+                    <li><strong><?php esc_html_e('מקבלים מחיר והיקף', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('המערכת מציגה עמודים ומחיר משוער לפי הגדרות התמחור.', 'school-publisher-shortcodes'); ?></span></li>
+                    <li><strong><?php esc_html_e('אישור אישי', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('אנחנו בודקים את הבחירה, מוודאים פרטים ומאשרים לפרסום.', 'school-publisher-shortcodes'); ?></span></li>
+                    <li><strong><?php esc_html_e('קישור לתלמידים', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('בית הספר שולח קישור ייעודי, ואנחנו מרכזים רכישות, הדפסה ומשלוח.', 'school-publisher-shortcodes'); ?></span></li>
+                </ol>
+            </section>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
     public function render_pricing_page() {
         $pricing = $this->pricing();
         echo '<div class="wrap spb-admin-page" dir="rtl"><h1>' . esc_html__('הגדרות תמחור', 'school-publisher-shortcodes') . '</h1>';
@@ -479,13 +564,21 @@ class SPB_Plugin {
         echo '<table class="form-table" role="presentation"><tbody>';
         $fields = array(
             'base_price' => __('מחיר בסיסי לספר', 'school-publisher-shortcodes'),
+            'base_pages' => __('כמות עמודים בסיסית', 'school-publisher-shortcodes'),
+            'lower_page_threshold' => __('טווח תחתון ללא שינוי מחיר', 'school-publisher-shortcodes'),
+            'upper_page_threshold' => __('טווח עליון ללא שינוי מחיר', 'school-publisher-shortcodes'),
             'page_price' => __('עלות לפי עמוד', 'school-publisher-shortcodes'),
             'hardcover_price' => __('עלות כריכה קשה', 'school-publisher-shortcodes'),
             'fixed_price' => __('מחיר קבוע לכל ספר (אופציונלי)', 'school-publisher-shortcodes'),
         );
         foreach ($fields as $key => $label) {
             echo '<tr><th scope="row"><label for="spb_' . esc_attr($key) . '">' . esc_html($label) . '</label></th><td>';
-            echo '<input id="spb_' . esc_attr($key) . '" type="number" step="0.01" min="0" name="spb_pricing[' . esc_attr($key) . ']" value="' . esc_attr($pricing[$key]) . '"> ₪';
+            $step = in_array($key, array('base_pages', 'lower_page_threshold', 'upper_page_threshold'), true) ? '1' : '0.01';
+            $suffix = in_array($key, array('base_pages', 'lower_page_threshold', 'upper_page_threshold'), true) ? __('עמודים', 'school-publisher-shortcodes') : '₪';
+            echo '<input id="spb_' . esc_attr($key) . '" type="number" step="' . esc_attr($step) . '" min="0" name="spb_pricing[' . esc_attr($key) . ']" value="' . esc_attr($pricing[$key]) . '"> ' . esc_html($suffix);
+            if ($key === 'upper_page_threshold') {
+                echo '<p class="description">' . esc_html__('לדוגמה: מחיר בסיס ל-70 עמודים, טווח תחתון 5 וטווח עליון 5. ספר בין 65 ל-75 עמודים יישאר במחיר הבסיס. רק מעבר לזה יחושב לפי מחיר לעמוד.', 'school-publisher-shortcodes') . '</p>';
+            }
             echo '</td></tr>';
         }
         echo '<tr><th scope="row"><label for="spb_user_special_prices">' . esc_html__('מחירים מיוחדים למשתמשים', 'school-publisher-shortcodes') . '</label></th><td>';
@@ -911,6 +1004,7 @@ class SPB_Plugin {
             'requestId' => $request_id,
             'totalPages' => $calculation['total_pages'],
             'totalPrice' => $calculation['total_price'],
+            'billablePages' => $calculation['billable_pages'],
             'publicUrl' => $this->request_public_url($request_id),
         ));
     }
@@ -1031,7 +1125,8 @@ class SPB_Plugin {
             $play_price += (float) $play['price'];
         }
 
-        $total = (float) $pricing['base_price'] + ($pages * (float) $pricing['page_price']) + $play_price;
+        $billable_pages = $this->billable_pages_delta($pages, $pricing);
+        $total = (float) $pricing['base_price'] + ($billable_pages * (float) $pricing['page_price']) + $play_price;
         if ($hardcover) {
             $total += (float) $pricing['hardcover_price'];
         }
@@ -1039,13 +1134,38 @@ class SPB_Plugin {
         if ($override_price !== null) {
             $total = $override_price;
         }
+        $total = max(0, $total);
 
         return array(
             'plays' => $plays,
             'works' => $works,
             'total_pages' => $pages,
+            'billable_pages' => $billable_pages,
             'total_price' => round($total, 2),
         );
+    }
+
+    private function billable_pages_delta($pages, $pricing) {
+        $base_pages = absint($pricing['base_pages'] ?? 0);
+        $lower_threshold = absint($pricing['lower_page_threshold'] ?? 0);
+        $upper_threshold = absint($pricing['upper_page_threshold'] ?? 0);
+
+        if (!$base_pages) {
+            return (int) $pages;
+        }
+
+        $minimum_included = max(0, $base_pages - $lower_threshold);
+        $maximum_included = $base_pages + $upper_threshold;
+
+        if ($pages < $minimum_included) {
+            return $pages - $minimum_included;
+        }
+
+        if ($pages > $maximum_included) {
+            return $pages - $maximum_included;
+        }
+
+        return 0;
     }
 
     private function selected_items($ids, $type, $grade_id) {
@@ -1115,7 +1235,16 @@ class SPB_Plugin {
     }
 
     private function pricing() {
-        $defaults = array('base_price' => 20, 'page_price' => 0.7, 'hardcover_price' => 12, 'fixed_price' => '', 'user_special_prices' => '');
+        $defaults = array(
+            'base_price' => 20,
+            'page_price' => 0.7,
+            'base_pages' => 70,
+            'lower_page_threshold' => 5,
+            'upper_page_threshold' => 5,
+            'hardcover_price' => 12,
+            'fixed_price' => '',
+            'user_special_prices' => '',
+        );
         return wp_parse_args((array) get_option('spb_pricing', array()), $defaults);
     }
 

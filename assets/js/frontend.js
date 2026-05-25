@@ -52,14 +52,36 @@
         const selected = selectedItems();
         const pages = selected.plays.concat(selected.works).reduce((sum, item) => sum + Number(item.pages || 0), 0);
         const playsPrice = selected.plays.reduce((sum, item) => sum + Number(item.price || 0), 0);
-        let price = Number(config.pricing.base_price || 0) + pages * Number(config.pricing.page_price || 0) + playsPrice;
+        const billablePages = billablePagesDelta(pages);
+        let price = Number(config.pricing.base_price || 0) + billablePages * Number(config.pricing.page_price || 0) + playsPrice;
         if (state.hardcover) {
             price += Number(config.pricing.hardcover_price || 0);
         }
         if (config.userFixedPrice !== null && config.userFixedPrice !== undefined) {
             price = Number(config.userFixedPrice || 0);
         }
-        return { pages, price, selected };
+        price = Math.max(0, price);
+        return { pages, price, selected, billablePages };
+    }
+
+    function billablePagesDelta(pages) {
+        const basePages = Number(config.pricing.base_pages || 0);
+        const lowerThreshold = Number(config.pricing.lower_page_threshold || 0);
+        const upperThreshold = Number(config.pricing.upper_page_threshold || 0);
+
+        if (!basePages) {
+            return pages;
+        }
+
+        const minimumIncluded = Math.max(0, basePages - lowerThreshold);
+        const maximumIncluded = basePages + upperThreshold;
+        if (pages < minimumIncluded) {
+            return pages - minimumIncluded;
+        }
+        if (pages > maximumIncluded) {
+            return pages - maximumIncluded;
+        }
+        return 0;
     }
 
     function renderPlays() {

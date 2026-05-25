@@ -15,6 +15,17 @@ WordPress plugin for building school literature books from a managed catalog of 
 4. Set pricing under **הגדרות תמחור**.
 5. Create a WordPress page and place `[school_book_builder]` inside it.
 
+## Catalog Import
+
+Use **בונה ספרים → ייבוא מאגר תוכן** to paste CSV content.
+
+Example:
+
+```csv
+title,author,grade,category,pages,price,required,active
+הכניסיני תחת כנפך,חיים נחמן ביאליק,כיתה י,שירה,2,,1,1
+```
+
 ## Pricing
 
 The plugin supports:

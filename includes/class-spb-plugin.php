@@ -27,8 +27,15 @@ class SPB_Plugin {
         add_action('save_post', array($this, 'save_meta_boxes'));
         add_action('admin_menu', array($this, 'add_admin_pages'));
         add_action('admin_init', array($this, 'register_settings'));
+        add_action('admin_post_spb_import_catalog', array($this, 'handle_catalog_import'));
         add_action('wp_enqueue_scripts', array($this, 'register_assets'));
         add_action('admin_enqueue_scripts', array($this, 'register_admin_assets'));
+        add_filter('manage_spb_work_posts_columns', array($this, 'work_columns'));
+        add_action('manage_spb_work_posts_custom_column', array($this, 'render_work_column'), 10, 2);
+        add_filter('manage_spb_play_posts_columns', array($this, 'play_columns'));
+        add_action('manage_spb_play_posts_custom_column', array($this, 'render_play_column'), 10, 2);
+        add_filter('manage_spb_book_request_posts_columns', array($this, 'request_columns'));
+        add_action('manage_spb_book_request_posts_custom_column', array($this, 'render_request_column'), 10, 2);
         add_shortcode('school_book_builder', array($this, 'render_book_builder'));
         add_shortcode('school_book_request', array($this, 'render_book_request'));
         add_action('wp_ajax_spb_save_book_request', array($this, 'ajax_save_book_request'));
@@ -137,6 +144,15 @@ class SPB_Plugin {
             'manage_options',
             'spb-pricing',
             array($this, 'render_pricing_page')
+        );
+
+        add_submenu_page(
+            'spb-dashboard',
+            __('ייבוא מאגר תוכן', 'school-publisher-shortcodes'),
+            __('ייבוא מאגר תוכן', 'school-publisher-shortcodes'),
+            'manage_options',
+            'spb-import',
+            array($this, 'render_import_page')
         );
     }
 
@@ -298,6 +314,91 @@ class SPB_Plugin {
         echo '</ul>';
     }
 
+    public function work_columns($columns) {
+        return array(
+            'cb' => $columns['cb'],
+            'title' => __('שם יצירה', 'school-publisher-shortcodes'),
+            'spb_author' => __('מחבר', 'school-publisher-shortcodes'),
+            'spb_grade' => __('כיתה', 'school-publisher-shortcodes'),
+            'taxonomy-spb_work_category' => __('קטגוריה', 'school-publisher-shortcodes'),
+            'spb_pages' => __('עמודים', 'school-publisher-shortcodes'),
+            'spb_required' => __('חובה', 'school-publisher-shortcodes'),
+            'spb_active' => __('פעיל', 'school-publisher-shortcodes'),
+            'date' => $columns['date'],
+        );
+    }
+
+    public function play_columns($columns) {
+        return array(
+            'cb' => $columns['cb'],
+            'title' => __('שם מחזה', 'school-publisher-shortcodes'),
+            'spb_author' => __('מחבר', 'school-publisher-shortcodes'),
+            'spb_grade' => __('כיתה', 'school-publisher-shortcodes'),
+            'spb_pages' => __('עמודים', 'school-publisher-shortcodes'),
+            'spb_price' => __('מחיר', 'school-publisher-shortcodes'),
+            'spb_active' => __('פעיל', 'school-publisher-shortcodes'),
+            'date' => $columns['date'],
+        );
+    }
+
+    public function request_columns($columns) {
+        return array(
+            'cb' => $columns['cb'],
+            'title' => __('בקשה', 'school-publisher-shortcodes'),
+            'spb_school' => __('בית ספר', 'school-publisher-shortcodes'),
+            'spb_grade' => __('כיתה', 'school-publisher-shortcodes'),
+            'spb_pages' => __('עמודים', 'school-publisher-shortcodes'),
+            'spb_price' => __('מחיר', 'school-publisher-shortcodes'),
+            'spb_status' => __('סטטוס', 'school-publisher-shortcodes'),
+            'date' => $columns['date'],
+        );
+    }
+
+    public function render_work_column($column, $post_id) {
+        $this->render_catalog_column($column, $post_id);
+    }
+
+    public function render_play_column($column, $post_id) {
+        $this->render_catalog_column($column, $post_id);
+    }
+
+    private function render_catalog_column($column, $post_id) {
+        if ($column === 'spb_author') {
+            $author_id = (int) get_post_meta($post_id, '_spb_author_id', true);
+            echo esc_html($author_id ? get_the_title($author_id) : '-');
+        } elseif ($column === 'spb_grade') {
+            $grade_id = (int) get_post_meta($post_id, '_spb_grade_id', true);
+            echo esc_html($grade_id ? get_the_title($grade_id) : '-');
+        } elseif ($column === 'spb_pages') {
+            echo esc_html((int) get_post_meta($post_id, '_spb_pages', true));
+        } elseif ($column === 'spb_required') {
+            echo get_post_meta($post_id, '_spb_required', true) === '1' ? esc_html__('כן', 'school-publisher-shortcodes') : '-';
+        } elseif ($column === 'spb_active') {
+            $active = get_post_meta($post_id, '_spb_active', true) === '1';
+            echo '<span class="spb-admin-pill ' . ($active ? 'is-active' : 'is-inactive') . '">' . esc_html($active ? __('פעיל', 'school-publisher-shortcodes') : __('כבוי', 'school-publisher-shortcodes')) . '</span>';
+        } elseif ($column === 'spb_price') {
+            echo esc_html($this->format_price(get_post_meta($post_id, '_spb_price', true)));
+        }
+    }
+
+    public function render_request_column($column, $post_id) {
+        $data = get_post_meta($post_id, '_spb_request_data', true);
+        $data = is_array($data) ? $data : array();
+        if ($column === 'spb_school') {
+            echo esc_html($data['school_name'] ?? '-');
+        } elseif ($column === 'spb_grade') {
+            echo esc_html($data['grade_title'] ?? '-');
+        } elseif ($column === 'spb_pages') {
+            echo esc_html($data['total_pages'] ?? 0);
+        } elseif ($column === 'spb_price') {
+            echo esc_html($this->format_price($data['total_price'] ?? 0));
+        } elseif ($column === 'spb_status') {
+            $statuses = $this->request_statuses();
+            $status = get_post_meta($post_id, '_spb_status', true) ?: 'new';
+            echo '<span class="spb-admin-pill is-status">' . esc_html($statuses[$status] ?? $status) . '</span>';
+        }
+    }
+
     public function register_assets() {
         wp_register_style('spb-frontend', SPB_PLUGIN_URL . 'assets/css/frontend.css', array(), SPB_VERSION);
         wp_register_script('spb-frontend', SPB_PLUGIN_URL . 'assets/js/frontend.js', array(), SPB_VERSION, true);
@@ -309,11 +410,50 @@ class SPB_Plugin {
     }
 
     public function render_dashboard_page() {
+        $counts = array(
+            'grades' => wp_count_posts('spb_grade')->publish ?? 0,
+            'authors' => wp_count_posts('spb_author')->publish ?? 0,
+            'works' => wp_count_posts('spb_work')->publish ?? 0,
+            'plays' => wp_count_posts('spb_play')->publish ?? 0,
+            'requests' => wp_count_posts('spb_book_request')->publish ?? 0,
+        );
+
         echo '<div class="wrap spb-admin-page" dir="rtl"><h1>' . esc_html__('בונה ספרים לבתי ספר', 'school-publisher-shortcodes') . '</h1>';
-        echo '<p>' . esc_html__('כאן מנהלים את המאגר: כיתות, מחברים, יצירות, מחזות וספרים שנבנו על ידי בתי הספר.', 'school-publisher-shortcodes') . '</p>';
-        echo '<p><strong>' . esc_html__('שורטקוד בונה הספר:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_builder]</code></p>';
-        echo '<p><strong>' . esc_html__('שורטקוד להצגת בקשה ציבורית:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_request]</code></p>';
+        echo '<p>' . esc_html__('כאן מנהלים את המאגר, התמחור והספרים שבתי הספר בונים.', 'school-publisher-shortcodes') . '</p>';
+        echo '<div class="spb-admin-cards">';
+        $cards = array(
+            array(__('כיתות / שכבות', 'school-publisher-shortcodes'), $counts['grades'], admin_url('edit.php?post_type=spb_grade')),
+            array(__('מחברים', 'school-publisher-shortcodes'), $counts['authors'], admin_url('edit.php?post_type=spb_author')),
+            array(__('יצירות', 'school-publisher-shortcodes'), $counts['works'], admin_url('edit.php?post_type=spb_work')),
+            array(__('מחזות', 'school-publisher-shortcodes'), $counts['plays'], admin_url('edit.php?post_type=spb_play')),
+            array(__('ספרים שנבנו', 'school-publisher-shortcodes'), $counts['requests'], admin_url('edit.php?post_type=spb_book_request')),
+        );
+        foreach ($cards as $card) {
+            echo '<a class="spb-admin-card" href="' . esc_url($card[2]) . '"><span>' . esc_html($card[0]) . '</span><strong>' . esc_html($card[1]) . '</strong></a>';
+        }
         echo '</div>';
+        echo '<div class="spb-admin-panel"><h2>' . esc_html__('התחלה מהירה', 'school-publisher-shortcodes') . '</h2>';
+        echo '<ol><li>' . esc_html__('מוסיפים כיתות ומחברים.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מעלים יצירות ומחזות ידנית או דרך מסך הייבוא.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מסמנים פריטים כפעילים כדי שיופיעו לבתי הספר.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('יוצרים עמוד באתר עם השורטקוד של הבונה.', 'school-publisher-shortcodes') . '</li></ol>';
+        echo '<p><strong>' . esc_html__('שורטקוד בונה הספר:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_builder]</code></p>';
+        echo '<p><strong>' . esc_html__('שורטקוד להצגת בקשה ציבורית:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_request]</code></p></div>';
+        echo '</div>';
+    }
+
+    public function render_import_page() {
+        $message = isset($_GET['spb_imported']) ? sprintf(__('יובאו %d פריטים בהצלחה.', 'school-publisher-shortcodes'), absint($_GET['spb_imported'])) : '';
+        echo '<div class="wrap spb-admin-page" dir="rtl"><h1>' . esc_html__('ייבוא מאגר תוכן', 'school-publisher-shortcodes') . '</h1>';
+        if ($message) {
+            echo '<div class="notice notice-success"><p>' . esc_html($message) . '</p></div>';
+        }
+        echo '<div class="spb-admin-panel"><p>' . esc_html__('הדביקו CSV עם שורת כותרות. המערכת תיצור כיתות, מחברים וקטגוריות חסרים באופן אוטומטי.', 'school-publisher-shortcodes') . '</p>';
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+        wp_nonce_field('spb_import_catalog', 'spb_import_nonce');
+        echo '<input type="hidden" name="action" value="spb_import_catalog">';
+        echo '<p><label><strong>' . esc_html__('סוג פריטים', 'school-publisher-shortcodes') . '</strong><br><select name="spb_import_type"><option value="work">' . esc_html__('יצירות ספרותיות', 'school-publisher-shortcodes') . '</option><option value="play">' . esc_html__('מחזות', 'school-publisher-shortcodes') . '</option></select></label></p>';
+        echo '<p><label><strong>' . esc_html__('CSV', 'school-publisher-shortcodes') . '</strong><br><textarea name="spb_import_csv" rows="14" class="large-text code" placeholder="title,author,grade,category,pages,price,required,active&#10;הכניסיני תחת כנפך,חיים נחמן ביאליק,כיתה י,שירה,2,,1,1"></textarea></label></p>';
+        echo '<p class="description">' . esc_html__('ליצירות: title, author, grade, category, pages, required, active. למחזות אפשר להוסיף price.', 'school-publisher-shortcodes') . '</p>';
+        submit_button(__('ייבוא למאגר', 'school-publisher-shortcodes'));
+        echo '</form></div></div>';
     }
 
     public function render_pricing_page() {
@@ -340,6 +480,108 @@ class SPB_Plugin {
         echo '</tbody></table>';
         submit_button(__('שמירת הגדרות', 'school-publisher-shortcodes'));
         echo '</form></div>';
+    }
+
+    public function handle_catalog_import() {
+        if (!current_user_can('manage_options')) {
+            wp_die(esc_html__('אין הרשאה לבצע ייבוא.', 'school-publisher-shortcodes'));
+        }
+
+        if (!isset($_POST['spb_import_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['spb_import_nonce'])), 'spb_import_catalog')) {
+            wp_die(esc_html__('בקשת הייבוא אינה תקינה.', 'school-publisher-shortcodes'));
+        }
+
+        $type = sanitize_key($_POST['spb_import_type'] ?? 'work');
+        $post_type = $type === 'play' ? 'spb_play' : 'spb_work';
+        $csv = sanitize_textarea_field(wp_unslash($_POST['spb_import_csv'] ?? ''));
+        $rows = $this->parse_csv_text($csv);
+        $created = 0;
+
+        if (count($rows) > 1) {
+            $headers = array_map('sanitize_key', array_shift($rows));
+            foreach ($rows as $row) {
+                $item = array();
+                foreach ($headers as $index => $header) {
+                    $item[$header] = $row[$index] ?? '';
+                }
+                if (empty($item['title'])) {
+                    continue;
+                }
+                $created_id = $this->import_catalog_item($post_type, $item);
+                if ($created_id) {
+                    $created++;
+                }
+            }
+        }
+
+        wp_safe_redirect(add_query_arg('spb_imported', $created, admin_url('admin.php?page=spb-import')));
+        exit;
+    }
+
+    private function parse_csv_text($csv) {
+        $rows = array();
+        $lines = preg_split('/\r\n|\r|\n/', trim($csv));
+        foreach ($lines as $line) {
+            if (trim($line) === '') {
+                continue;
+            }
+            $rows[] = str_getcsv($line);
+        }
+        return $rows;
+    }
+
+    private function import_catalog_item($post_type, $item) {
+        $post_id = wp_insert_post(array(
+            'post_type' => $post_type,
+            'post_status' => 'publish',
+            'post_title' => sanitize_text_field($item['title']),
+        ));
+
+        if (is_wp_error($post_id) || !$post_id) {
+            return 0;
+        }
+
+        $author_id = $this->find_or_create_named_post('spb_author', $item['author'] ?? '');
+        $grade_id = $this->find_or_create_named_post('spb_grade', $item['grade'] ?? '');
+        update_post_meta($post_id, '_spb_author_id', $author_id);
+        update_post_meta($post_id, '_spb_grade_id', $grade_id);
+        update_post_meta($post_id, '_spb_pages', absint($item['pages'] ?? 0));
+        update_post_meta($post_id, '_spb_required', $this->truthy($item['required'] ?? '') ? '1' : '0');
+        update_post_meta($post_id, '_spb_active', $this->truthy($item['active'] ?? '1') ? '1' : '0');
+
+        if ($post_type === 'spb_play') {
+            update_post_meta($post_id, '_spb_price', $this->money($item['price'] ?? 0));
+        }
+
+        if ($post_type === 'spb_work' && !empty($item['category'])) {
+            wp_set_object_terms($post_id, sanitize_text_field($item['category']), 'spb_work_category');
+        }
+
+        return $post_id;
+    }
+
+    private function find_or_create_named_post($post_type, $title) {
+        $title = sanitize_text_field($title);
+        if ($title === '') {
+            return 0;
+        }
+
+        $existing = get_page_by_title($title, OBJECT, $post_type);
+        if ($existing) {
+            return $existing->ID;
+        }
+
+        $post_id = wp_insert_post(array(
+            'post_type' => $post_type,
+            'post_status' => 'publish',
+            'post_title' => $title,
+        ));
+
+        return is_wp_error($post_id) ? 0 : (int) $post_id;
+    }
+
+    private function truthy($value) {
+        return in_array(strtolower(trim((string) $value)), array('1', 'yes', 'true', 'active', 'פעיל', 'כן'), true);
     }
 
     public function render_book_builder() {

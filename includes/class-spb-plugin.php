@@ -368,20 +368,32 @@ class SPB_Plugin {
         ob_start();
         ?>
         <div class="spb-builder" dir="rtl">
-            <div class="spb-builder__header">
-                <div>
-                    <p class="spb-eyebrow"><?php esc_html_e('בונה ספר שכבתי', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('בחרו יצירות ומחזות לספר הספרות שלכם', 'school-publisher-shortcodes'); ?></h2>
+            <header class="spb-hero">
+                <div class="spb-hero__content">
+                    <p class="spb-eyebrow"><?php esc_html_e('מערכת ספרות לבתי ספר', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('בונים ספר ספרות שכבתי בצורה חכמה', 'school-publisher-shortcodes'); ?></h2>
+                    <p><?php esc_html_e('בחרו שכבה, הוסיפו מחזות ויצירות, וקבלו מיד סיכום עמודים ומחיר משוער לאישור.', 'school-publisher-shortcodes'); ?></p>
                 </div>
-                <div class="spb-summary">
-                    <span><strong data-spb-pages>0</strong><?php esc_html_e(' עמודים', 'school-publisher-shortcodes'); ?></span>
-                    <span><strong data-spb-price>₪0</strong><?php esc_html_e(' מחיר משוער', 'school-publisher-shortcodes'); ?></span>
+                <div class="spb-hero__metrics" aria-label="<?php esc_attr_e('סיכום מהיר', 'school-publisher-shortcodes'); ?>">
+                    <div><span><?php esc_html_e('עמודים', 'school-publisher-shortcodes'); ?></span><strong data-spb-pages>0</strong></div>
+                    <div><span><?php esc_html_e('מחיר משוער', 'school-publisher-shortcodes'); ?></span><strong data-spb-price>₪0</strong></div>
                 </div>
-            </div>
+            </header>
+
+            <nav class="spb-steps" aria-label="<?php esc_attr_e('שלבי בניית הספר', 'school-publisher-shortcodes'); ?>">
+                <span class="is-active"><b>1</b><?php esc_html_e('בחירת שכבה', 'school-publisher-shortcodes'); ?></span>
+                <span><b>2</b><?php esc_html_e('בחירת מחזות', 'school-publisher-shortcodes'); ?></span>
+                <span><b>3</b><?php esc_html_e('בחירת יצירות', 'school-publisher-shortcodes'); ?></span>
+                <span><b>4</b><?php esc_html_e('סיכום ושליחה', 'school-publisher-shortcodes'); ?></span>
+            </nav>
 
             <div class="spb-grid">
                 <main class="spb-main">
-                    <section class="spb-panel">
+                    <section class="spb-panel spb-panel--grade">
+                        <div class="spb-panel-heading">
+                            <span class="spb-panel-kicker"><?php esc_html_e('שלב ראשון', 'school-publisher-shortcodes'); ?></span>
+                            <h3><?php esc_html_e('לאיזו שכבה בונים את הספר?', 'school-publisher-shortcodes'); ?></h3>
+                        </div>
                         <label class="spb-field">
                             <span><?php esc_html_e('כיתה / שכבה', 'school-publisher-shortcodes'); ?></span>
                             <select data-spb-grade>
@@ -394,14 +406,16 @@ class SPB_Plugin {
                     </section>
 
                     <section class="spb-panel">
-                        <div class="spb-section-title">
+                        <div class="spb-panel-heading">
+                            <span class="spb-panel-kicker"><?php esc_html_e('בחירה ויזואלית', 'school-publisher-shortcodes'); ?></span>
                             <h3><?php esc_html_e('מחזות', 'school-publisher-shortcodes'); ?></h3>
                         </div>
                         <div class="spb-cards" data-spb-plays></div>
                     </section>
 
                     <section class="spb-panel">
-                        <div class="spb-section-title">
+                        <div class="spb-panel-heading">
+                            <span class="spb-panel-kicker"><?php esc_html_e('מאגר לפי קטגוריות', 'school-publisher-shortcodes'); ?></span>
                             <h3><?php esc_html_e('יצירות ספרותיות', 'school-publisher-shortcodes'); ?></h3>
                         </div>
                         <div data-spb-works></div>
@@ -410,7 +424,10 @@ class SPB_Plugin {
 
                 <aside class="spb-sidebar">
                     <section class="spb-panel spb-panel--sticky">
-                        <h3><?php esc_html_e('סיכום הבחירה', 'school-publisher-shortcodes'); ?></h3>
+                        <div class="spb-summary-head">
+                            <span><?php esc_html_e('טיוטת ספר', 'school-publisher-shortcodes'); ?></span>
+                            <h3><?php esc_html_e('סיכום הבחירה', 'school-publisher-shortcodes'); ?></h3>
+                        </div>
                         <label class="spb-field">
                             <span><?php esc_html_e('שם בית הספר', 'school-publisher-shortcodes'); ?></span>
                             <input type="text" data-spb-school placeholder="<?php esc_attr_e('לדוגמה: תיכון אלון', 'school-publisher-shortcodes'); ?>">
@@ -420,9 +437,10 @@ class SPB_Plugin {
                             <span><?php esc_html_e('כריכה קשה', 'school-publisher-shortcodes'); ?></span>
                         </label>
                         <div class="spb-totals">
-                            <div><span><?php esc_html_e('עמודים', 'school-publisher-shortcodes'); ?></span><strong data-spb-pages>0</strong></div>
-                            <div><span><?php esc_html_e('מחיר משוער', 'school-publisher-shortcodes'); ?></span><strong data-spb-price>₪0</strong></div>
+                            <div><span><?php esc_html_e('עמודים בספר', 'school-publisher-shortcodes'); ?></span><strong data-spb-pages>0</strong></div>
+                            <div><span><?php esc_html_e('עלות לתלמיד', 'school-publisher-shortcodes'); ?></span><strong data-spb-price>₪0</strong></div>
                         </div>
+                        <h4 class="spb-selected-title"><?php esc_html_e('מה נכנס לספר', 'school-publisher-shortcodes'); ?></h4>
                         <div class="spb-selected" data-spb-selected></div>
                         <button type="button" class="spb-button" data-spb-save><?php esc_html_e('שמירת הספר ושליחת בקשה', 'school-publisher-shortcodes'); ?></button>
                         <p class="spb-message" data-spb-message></p>

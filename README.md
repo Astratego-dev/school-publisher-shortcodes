@@ -36,3 +36,9 @@ The plugin supports:
 - Per-play price.
 - Optional fixed global price.
 - Optional fixed user price by user ID or email.
+
+## Saved Books and Approval
+
+Coordinators can open a previously saved book from the builder and save it as a new copy for a new year or a revised version.
+
+Every saved book starts as `new` and is not publicly visible until the owner approves it in the admin request screen.

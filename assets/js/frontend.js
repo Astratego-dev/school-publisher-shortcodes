@@ -14,6 +14,7 @@
         playIds: new Set(),
         workIds: new Set(),
         hardcover: false,
+        sourceRequestId: 0,
     };
 
     const money = new Intl.NumberFormat('he-IL', {
@@ -31,6 +32,7 @@
         selected: root.querySelector('[data-spb-selected]'),
         save: root.querySelector('[data-spb-save]'),
         message: root.querySelector('[data-spb-message]'),
+        template: root.querySelector('[data-spb-template]'),
     };
 
     function itemsForGrade(items) {
@@ -157,8 +159,17 @@
         state.gradeId = els.grade.value;
         state.playIds.clear();
         state.workIds.clear();
+        state.sourceRequestId = 0;
         renderAll();
     });
+
+    if (els.template) {
+        els.template.addEventListener('change', () => {
+            if (els.template.value) {
+                window.location.href = els.template.value;
+            }
+        });
+    }
 
     els.hardcover.addEventListener('change', () => {
         state.hardcover = els.hardcover.checked;
@@ -187,6 +198,7 @@
         payload.set('gradeId', state.gradeId);
         payload.set('schoolName', els.school.value || '');
         payload.set('hardcover', state.hardcover ? '1' : '');
+        payload.set('sourceRequestId', String(state.sourceRequestId || 0));
         Array.from(state.playIds).forEach((id) => payload.append('playIds[]', id));
         Array.from(state.workIds).forEach((id) => payload.append('workIds[]', id));
 
@@ -223,5 +235,24 @@
         return escapeHtml(value).replace(/`/g, '&#096;');
     }
 
+    function loadInitialRequest() {
+        const request = config.initialRequest;
+        if (!request) {
+            return;
+        }
+
+        state.gradeId = String(request.gradeId || '');
+        state.playIds = new Set((request.playIds || []).map(String));
+        state.workIds = new Set((request.workIds || []).map(String));
+        state.hardcover = Boolean(request.hardcover);
+        state.sourceRequestId = Number(request.id || 0);
+        els.grade.value = state.gradeId;
+        els.hardcover.checked = state.hardcover;
+        if (els.school && request.schoolName) {
+            els.school.value = request.schoolName;
+        }
+    }
+
+    loadInitialRequest();
     renderAll();
 })();

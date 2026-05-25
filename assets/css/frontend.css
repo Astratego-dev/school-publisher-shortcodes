@@ -499,20 +499,20 @@
 }
 
 .spb-sales {
-    --spb-sales-lime: #d7ff20;
-    --spb-sales-green: #54b07a;
-    --spb-sales-deep: #262927;
-    --spb-sales-black: #171918;
-    --spb-sales-ink: #101614;
-    --spb-sales-muted: #67746d;
-    --spb-sales-line: #dce7df;
-    background: #f2f4ef;
+    --spb-sales-ink: #10201b;
+    --spb-sales-muted: #68756f;
+    --spb-sales-green: #238965;
+    --spb-sales-soft: #edf7f1;
+    --spb-sales-cream: #fbfaf5;
+    --spb-sales-line: #dce8df;
+    --spb-sales-dark: #14231e;
+    background: linear-gradient(180deg, #fbfaf5 0%, #eef5ef 100%);
     color: var(--spb-sales-ink);
     display: grid;
     font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    gap: 28px;
+    gap: 26px;
     margin: 0 auto;
-    max-width: 1280px;
+    max-width: 1240px;
     padding: 18px;
 }
 
@@ -522,31 +522,18 @@
 
 .spb-sales-hero {
     background:
-        linear-gradient(90deg, rgba(84, 176, 122, 0.95) 0 49.7%, rgba(38, 41, 39, 0.96) 49.8% 100%),
-        url("../img/literature-hero.png") center / cover no-repeat;
-    border: 1px solid rgba(16, 22, 20, 0.16);
+        linear-gradient(135deg, rgba(251, 250, 245, 0.98), rgba(241, 248, 244, 0.94)),
+        radial-gradient(circle at 22% 18%, rgba(35, 137, 101, 0.15), transparent 33%);
+    border: 1px solid var(--spb-sales-line);
     border-radius: 8px;
-    box-shadow: 0 42px 90px rgba(12, 20, 16, 0.22);
-    color: #fff;
+    box-shadow: 0 28px 70px rgba(16, 32, 27, 0.10);
+    color: var(--spb-sales-ink);
     display: grid;
-    gap: 0;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: auto 1fr auto;
-    min-height: 690px;
+    gap: 34px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
     overflow: hidden;
-    padding: 0;
+    padding: 28px;
     position: relative;
-}
-
-.spb-sales-hero:before {
-    background:
-        radial-gradient(circle at 70% 46%, rgba(255, 255, 255, 0.08), transparent 31%),
-        radial-gradient(circle at 84% 40%, transparent 0 22%, rgba(255, 255, 255, 0.05) 22.3% 22.9%, transparent 23.2%),
-        linear-gradient(90deg, transparent 0 49.8%, rgba(255, 255, 255, 0.08) 49.9% 50.1%, transparent 50.2%);
-    content: "";
-    inset: 0;
-    pointer-events: none;
-    position: absolute;
 }
 
 .spb-sales-nav {
@@ -555,15 +542,11 @@
     gap: 18px;
     grid-column: 1 / -1;
     grid-template-columns: 1fr auto auto;
-    min-height: 90px;
-    padding: 26px 52px 0;
-    position: relative;
-    z-index: 2;
 }
 
 .spb-sales-nav strong {
     align-items: center;
-    color: #fff;
+    color: var(--spb-sales-dark);
     display: inline-flex;
     font-size: 20px;
     font-weight: 900;
@@ -571,74 +554,71 @@
 }
 
 .spb-sales-nav strong:before {
-    background: var(--spb-sales-lime);
-    clip-path: polygon(0 0, 100% 50%, 0 100%, 22% 50%);
+    background: var(--spb-sales-green);
+    border-radius: 8px;
     content: "";
-    height: 24px;
-    width: 32px;
+    height: 26px;
+    width: 26px;
 }
 
 .spb-sales-nav nav {
     display: flex;
-    gap: 34px;
+    gap: 24px;
 }
 
 .spb-sales-nav a {
-    color: rgba(255, 255, 255, 0.82);
+    color: var(--spb-sales-muted);
     font-size: 15px;
     font-weight: 700;
     text-decoration: none;
 }
 
-.spb-sales-nav nav a:first-child {
-    border-bottom: 3px solid var(--spb-sales-lime);
-    color: var(--spb-sales-lime);
-    padding-bottom: 8px;
+.spb-sales-nav a:hover {
+    color: var(--spb-sales-green);
 }
 
 .spb-sales-contact {
-    background: var(--spb-sales-lime);
+    background: var(--spb-sales-dark);
     border-radius: 999px;
-    color: #202820 !important;
-    padding: 12px 22px;
+    color: #fff !important;
+    padding: 12px 20px;
 }
 
 .spb-sales-hero__copy {
     align-self: center;
-    grid-column: 2 / 4;
-    grid-row: 2;
-    margin-top: 20px;
-    position: relative;
-    z-index: 3;
+    display: grid;
+    gap: 20px;
+    max-width: 560px;
+    padding: 42px 12px 54px;
 }
 
 .spb-sales-eyebrow {
-    color: var(--spb-sales-lime);
-    font-size: 15px;
+    color: var(--spb-sales-green);
+    font-size: 14px;
     font-weight: 900;
     letter-spacing: 0;
-    margin: 0 0 18px;
+    margin: 0;
 }
 
 .spb-sales h1,
 .spb-sales h2,
 .spb-sales h3 {
     color: inherit;
-    line-height: 1.02;
+    line-height: 1.08;
     margin: 0;
 }
 
 .spb-sales h1 {
-    color: #fff;
-    font-size: clamp(58px, 7.6vw, 112px);
+    color: var(--spb-sales-dark);
+    font-size: clamp(46px, 5.2vw, 74px);
     font-weight: 900;
-    max-width: 1040px;
 }
 
 .spb-sales h2 {
-    color: var(--spb-sales-ink);
-    font-size: 42px;
+    color: var(--spb-sales-dark);
+    font-size: clamp(32px, 4vw, 52px);
     font-weight: 900;
+    max-width: 760px;
 }
 
 .spb-sales h3 {
@@ -646,237 +626,238 @@
     font-weight: 900;
 }
 
-.spb-sales-hero p {
-    color: rgba(255, 255, 255, 0.83);
+.spb-sales-hero p,
+.spb-sales-heading p {
+    color: var(--spb-sales-muted);
     font-size: 18px;
     font-weight: 500;
-    line-height: 1.75;
-    margin: 24px 0 0;
-    max-width: 620px;
+    line-height: 1.8;
+    margin: 0;
 }
 
 .spb-sales-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 34px;
+    gap: 12px;
+    margin-top: 10px;
 }
 
 .spb-sales-actions a {
     align-items: center;
-    background: var(--spb-sales-lime);
+    background: var(--spb-sales-green);
     border-radius: 999px;
-    color: #202820;
+    color: #fff;
     display: inline-flex;
     font-weight: 900;
-    min-height: 78px;
-    padding: 0 25px;
+    min-height: 52px;
+    padding: 0 22px;
     text-decoration: none;
     transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .spb-sales-actions a:hover {
-    box-shadow: 0 18px 35px rgba(215, 255, 32, 0.22);
+    box-shadow: 0 16px 32px rgba(35, 137, 101, 0.22);
     transform: translateY(-2px);
 }
 
 .spb-sales-actions a + a {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    color: #fff;
+    background: #fff;
+    border: 1px solid var(--spb-sales-line);
+    color: var(--spb-sales-dark);
 }
 
-.spb-sales-hero__panel {
+.spb-sales-visual {
     align-self: stretch;
-    display: grid;
-    grid-column: 1 / -1;
-    grid-row: 2 / 4;
-    grid-template-columns: 24% 20% 56%;
+    min-height: 560px;
     position: relative;
-    z-index: 2;
 }
 
-.spb-sales-preview-card {
-    align-self: start;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+.spb-sales-photo {
+    background: url("../img/literature-hero.png") center / cover no-repeat;
     border-radius: 8px;
-    display: grid;
-    gap: 10px;
-    justify-items: center;
-    margin: 94px 0 0 54px;
-    padding: 20px;
-    width: 150px;
-}
-
-.spb-sales-preview-card:before {
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05)),
-        url("../img/literature-hero.png") 22% 62% / 520% no-repeat;
-    border-radius: 8px;
-    content: "";
-    height: 150px;
-    width: 112px;
-}
-
-.spb-sales-preview-card b {
-    align-items: center;
-    background: #fff;
-    border-radius: 999px;
-    color: #1c221f;
-    display: inline-flex;
-    height: 42px;
-    justify-content: center;
-    margin-top: -92px;
-    padding-right: 3px;
-    width: 42px;
-}
-
-.spb-sales-preview-card span {
-    color: #fff;
-    font-size: 13px;
-    font-weight: 900;
-}
-
-.spb-sales-timeline {
-    align-self: end;
-    display: grid;
-    gap: 16px;
-    justify-items: center;
-    margin-bottom: 16px;
-    min-height: 300px;
-    text-align: center;
-}
-
-.spb-sales-timeline span {
-    background: rgba(255, 255, 255, 0.62);
-    display: block;
-    height: 150px;
-    width: 1px;
-}
-
-.spb-sales-timeline:before {
-    align-items: center;
-    background: #fff;
-    border-radius: 999px;
-    color: var(--spb-sales-green);
-    content: "ספר";
-    display: inline-flex;
-    font-size: 13px;
-    font-weight: 900;
-    height: 48px;
-    justify-content: center;
-    order: 2;
-    width: 48px;
-}
-
-.spb-sales-timeline strong {
-    color: #fff;
-    font-size: 28px;
-    order: 3;
-}
-
-.spb-sales-timeline small {
-    color: rgba(255, 255, 255, 0.84);
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.45;
-    max-width: 160px;
-    order: 4;
-}
-
-.spb-sales-book-row {
-    align-self: end;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding: 0 52px 48px 0;
-}
-
-.spb-mini-book {
-    align-items: end;
-    aspect-ratio: 0.76;
-    border: 10px solid rgba(255, 255, 255, 0.18);
-    border-radius: 8px;
-    box-shadow: 0 24px 44px rgba(0, 0, 0, 0.25);
-    display: flex;
-    overflow: hidden;
-    padding: 18px;
-    position: relative;
-    transition: transform 180ms ease;
-}
-
-.spb-mini-book:hover {
-    transform: translateY(-6px) rotate(-1deg);
-}
-
-.spb-mini-book:before {
-    background: rgba(255, 255, 255, 0.22);
-    content: "";
-    height: 160%;
+    box-shadow: 0 28px 60px rgba(16, 32, 27, 0.18);
+    inset: 20px 0 20px 38px;
     position: absolute;
-    right: 35%;
-    top: -30%;
-    transform: rotate(18deg);
-    width: 26px;
 }
 
-.spb-mini-book span {
-    color: #fff;
-    font-size: 24px;
+.spb-sales-floating {
+    backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 8px;
+    box-shadow: 0 18px 45px rgba(16, 32, 27, 0.16);
+    display: grid;
+    gap: 4px;
+    padding: 18px;
+    position: absolute;
+}
+
+.spb-sales-floating--price {
+    bottom: 56px;
+    right: 0;
+    width: 184px;
+}
+
+.spb-sales-floating--book {
+    left: 0;
+    top: 74px;
+    width: 230px;
+}
+
+.spb-sales-floating span,
+.spb-sales-floating small {
+    color: var(--spb-sales-muted);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.spb-sales-floating strong {
+    color: var(--spb-sales-dark);
+    font-size: 28px;
     font-weight: 900;
-    position: relative;
-    z-index: 1;
 }
 
-.spb-mini-book--poetry {
-    background: linear-gradient(135deg, #f04f2f, #a81d1b);
+.spb-sales-mini-stack {
+    bottom: 56px;
+    display: flex;
+    gap: 8px;
+    left: 28px;
+    position: absolute;
 }
 
-.spb-mini-book--story {
-    background: linear-gradient(135deg, #eb6f92, #783ba8);
-}
-
-.spb-mini-book--play {
-    background: linear-gradient(135deg, #f3e7c7, #c18c34);
-}
-
-.spb-mini-book--choice {
-    background: linear-gradient(135deg, #ff6c38, #f0bc2b);
+.spb-sales-mini-stack span {
+    background: var(--spb-sales-dark);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 8px 12px;
 }
 
 .spb-sales-strip {
     display: grid;
-    gap: 16px;
+    gap: 14px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .spb-sales-strip div,
 .spb-sales-grid article,
+.spb-sales-system,
 .spb-sales-process {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.94);
     border: 1px solid var(--spb-sales-line);
     border-radius: 8px;
-    box-shadow: 0 18px 45px rgba(16, 35, 30, 0.07);
+    box-shadow: 0 16px 38px rgba(16, 32, 27, 0.06);
 }
 
 .spb-sales-strip div {
     display: grid;
-    gap: 7px;
+    gap: 10px;
     padding: 24px;
 }
 
-.spb-sales-strip strong {
-    color: var(--spb-sales-black);
-    font-size: 25px;
+.spb-sales-strip span,
+.spb-sales-grid article span {
+    color: var(--spb-sales-green);
+    font-size: 13px;
     font-weight: 900;
 }
 
-.spb-sales-strip span,
+.spb-sales-strip strong {
+    color: var(--spb-sales-dark);
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.spb-sales-strip p,
 .spb-sales-grid p,
 .spb-sales-process span {
     color: var(--spb-sales-muted);
     line-height: 1.75;
+    margin: 0;
+}
+
+.spb-sales-system {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: minmax(0, 0.85fr) minmax(420px, 1.15fr);
+    padding: 34px;
+}
+
+.spb-sales-heading {
+    align-self: center;
+    display: grid;
+    gap: 14px;
+}
+
+.spb-sales-interface {
+    align-items: stretch;
+    background: var(--spb-sales-soft);
+    border: 1px solid var(--spb-sales-line);
+    border-radius: 8px;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: minmax(0, 1fr) 190px;
+    padding: 16px;
+}
+
+.spb-sales-interface__screen,
+.spb-sales-interface__aside {
+    background: #fff;
+    border: 1px solid var(--spb-sales-line);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.spb-ui-top {
+    background: linear-gradient(90deg, var(--spb-sales-dark), var(--spb-sales-green));
+    border-radius: 8px;
+    height: 54px;
+    margin-bottom: 14px;
+}
+
+.spb-ui-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: 14px;
+}
+
+.spb-ui-grid span {
+    background: linear-gradient(135deg, #f4faf6, #e6f4eb);
+    border: 1px solid var(--spb-sales-line);
+    border-radius: 8px;
+    height: 112px;
+}
+
+.spb-ui-list {
+    display: grid;
+    gap: 8px;
+}
+
+.spb-ui-list span {
+    background: #f7faf8;
+    border: 1px solid var(--spb-sales-line);
+    border-radius: 8px;
+    height: 36px;
+}
+
+.spb-sales-interface__aside {
+    align-content: center;
+    display: grid;
+    gap: 10px;
+}
+
+.spb-sales-interface__aside strong {
+    color: var(--spb-sales-dark);
+    font-size: 21px;
+    line-height: 1.25;
+}
+
+.spb-sales-interface__aside p {
+    color: var(--spb-sales-muted);
+    line-height: 1.65;
+    margin: 0;
 }
 
 .spb-sales-section,
@@ -885,43 +866,40 @@
     gap: 22px;
 }
 
-.spb-sales-heading {
-    display: grid;
-    gap: 8px;
-}
-
 .spb-sales-grid {
     display: grid;
-    gap: 18px;
+    gap: 16px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .spb-sales-grid article {
     display: grid;
     gap: 14px;
+    min-height: 260px;
     overflow: hidden;
-    padding: 28px;
+    padding: 26px;
     position: relative;
 }
 
-.spb-sales-grid article:after {
-    background: var(--spb-sales-lime);
+.spb-sales-grid article:before {
+    background: linear-gradient(135deg, rgba(35, 137, 101, 0.16), rgba(255, 255, 255, 0));
     content: "";
-    height: 4px;
-    inset-inline-start: 28px;
+    height: 130px;
+    inset-inline-end: -40px;
     position: absolute;
-    top: 0;
-    width: 70px;
+    top: -40px;
+    transform: rotate(18deg);
+    width: 130px;
 }
 
+.spb-sales-grid article h3,
+.spb-sales-grid article p,
 .spb-sales-grid article span {
-    color: var(--spb-sales-green);
-    font-size: 13px;
-    font-weight: 900;
+    position: relative;
 }
 
 .spb-sales-process {
-    background: var(--spb-sales-black);
+    background: var(--spb-sales-dark);
     color: #fff;
     padding: 34px;
 }
@@ -930,10 +908,14 @@
     color: #fff;
 }
 
+.spb-sales-process .spb-sales-eyebrow {
+    color: #a8e8c7;
+}
+
 .spb-sales-process ol {
     counter-reset: spb-process;
     display: grid;
-    gap: 0;
+    gap: 10px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -941,25 +923,31 @@
 
 .spb-sales-process li {
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 8px;
     display: grid;
     gap: 14px;
-    grid-template-columns: 72px minmax(0, 0.75fr) minmax(0, 1.25fr);
-    padding: 22px 0;
+    grid-template-columns: 54px minmax(0, 0.75fr) minmax(0, 1.25fr);
+    padding: 16px;
 }
 
 .spb-sales-process li:before {
     align-items: center;
-    background: var(--spb-sales-lime);
+    background: #a8e8c7;
     border-radius: 999px;
-    color: var(--spb-sales-black);
+    color: var(--spb-sales-dark);
     content: counter(spb-process);
     counter-increment: spb-process;
     display: inline-flex;
     font-weight: 900;
-    height: 46px;
+    height: 40px;
     justify-content: center;
-    width: 46px;
+    width: 40px;
+}
+
+.spb-sales-process strong {
+    color: #fff;
 }
 
 .spb-sales-process span {
@@ -970,7 +958,9 @@
     .spb-hero,
     .spb-grid,
     .spb-sales-strip,
-    .spb-sales-grid {
+    .spb-sales-grid,
+    .spb-sales-system,
+    .spb-sales-interface {
         grid-template-columns: 1fr;
     }
 
@@ -987,11 +977,7 @@
     }
 
     .spb-sales-hero {
-        background:
-            linear-gradient(180deg, rgba(84, 176, 122, 0.94) 0 42%, rgba(38, 41, 39, 0.96) 42% 100%),
-            url("../img/literature-hero.png") center / cover no-repeat;
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
         min-height: auto;
     }
 
@@ -1006,28 +992,28 @@
         gap: 18px;
     }
 
-    .spb-sales-hero__copy,
-    .spb-sales-hero__panel {
-        grid-column: 1;
-        grid-row: auto;
-    }
-
     .spb-sales-hero__copy {
-        padding: 26px 24px 0;
+        padding: 20px 0 0;
     }
 
-    .spb-sales-hero__panel {
-        grid-template-columns: 1fr;
+    .spb-sales-visual {
+        min-height: 460px;
     }
 
-    .spb-sales-preview-card,
-    .spb-sales-timeline {
-        display: none;
+    .spb-sales-photo {
+        inset: 0;
     }
 
-    .spb-sales-book-row {
+    .spb-sales-floating--price {
+        right: 18px;
+    }
+
+    .spb-sales-floating--book {
+        left: 18px;
+    }
+
+    .spb-ui-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        padding: 30px 24px 24px;
     }
 }
 
@@ -1070,6 +1056,7 @@
 
     .spb-sales-hero {
         min-height: auto;
+        padding: 20px;
     }
 
     .spb-sales h1 {
@@ -1087,12 +1074,44 @@
         width: 100%;
     }
 
-    .spb-sales-book-row {
-        grid-template-columns: 1fr;
+    .spb-sales-nav nav {
+        display: none;
     }
 
-    .spb-mini-book {
-        aspect-ratio: 1.45;
+    .spb-sales-visual {
+        min-height: 380px;
+    }
+
+    .spb-sales-floating {
+        padding: 14px;
+    }
+
+    .spb-sales-floating--price,
+    .spb-sales-floating--book {
+        left: 12px;
+        right: 12px;
+        width: auto;
+    }
+
+    .spb-sales-floating--book {
+        top: 18px;
+    }
+
+    .spb-sales-floating--price {
+        bottom: 18px;
+    }
+
+    .spb-sales-mini-stack {
+        display: none;
+    }
+
+    .spb-sales-system,
+    .spb-sales-process {
+        padding: 20px;
+    }
+
+    .spb-ui-grid {
+        grid-template-columns: 1fr;
     }
 
     .spb-sales-process li {

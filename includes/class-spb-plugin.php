@@ -490,64 +490,87 @@ class SPB_Plugin {
                 <div class="spb-sales-nav">
                     <strong><?php esc_html_e('ספרות+', 'school-publisher-shortcodes'); ?></strong>
                     <nav aria-label="<?php esc_attr_e('ניווט עמוד הבית', 'school-publisher-shortcodes'); ?>">
-                        <a href="#spb-sales-value"><?php esc_html_e('יתרונות', 'school-publisher-shortcodes'); ?></a>
-                        <a href="#spb-sales-process"><?php esc_html_e('תהליך', 'school-publisher-shortcodes'); ?></a>
                         <a href="#spb-sales-system"><?php esc_html_e('המערכת', 'school-publisher-shortcodes'); ?></a>
+                        <a href="#spb-sales-value"><?php esc_html_e('למה זה עובד', 'school-publisher-shortcodes'); ?></a>
+                        <a href="#spb-sales-process"><?php esc_html_e('תהליך', 'school-publisher-shortcodes'); ?></a>
                     </nav>
                     <a class="spb-sales-contact" href="#spb-sales-process"><?php esc_html_e('לתיאום הדגמה', 'school-publisher-shortcodes'); ?></a>
                 </div>
                 <div class="spb-sales-hero__copy">
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('ספרות שנתית. בית ספר אחד. ספר אחד.', 'school-publisher-shortcodes'); ?></p>
-                    <h1><?php esc_html_e('כל היצירות של השנה, בספר אחד שנבנה בשביל השכבה שלכם', 'school-publisher-shortcodes'); ?></h1>
-                    <p><?php esc_html_e('רכזות ורכזי ספרות בוחרים יצירות, שירים ומחזות מתוך מאגר מסודר לפי שכבה ובהתאם להנחיות ולהמלצות משרד החינוך. אנחנו מאשרים, מדפיסים, מרכזים רכישות ושולחים לבית הספר.', 'school-publisher-shortcodes'); ?></p>
+                    <p class="spb-sales-eyebrow"><?php esc_html_e('פלטפורמה לבניית ספרות שנתית', 'school-publisher-shortcodes'); ?></p>
+                    <h1><?php esc_html_e('ספר ספרות שנבנה בדיוק לשכבה שלכם', 'school-publisher-shortcodes'); ?></h1>
+                    <p><?php esc_html_e('רכזות ורכזי ספרות מרכיבים ספר שנתי מתוך מאגר יצירות, שירים ומחזות שמאורגן לפי שכבות ובהתאם להנחיות ולהמלצות משרד החינוך. בית הספר מקבל ספר אחד, ברור ומוכן לתלמידים.', 'school-publisher-shortcodes'); ?></p>
                     <div class="spb-sales-actions">
-                        <a href="#spb-sales-process"><?php esc_html_e('לראות את התהליך', 'school-publisher-shortcodes'); ?></a>
-                        <a href="#spb-sales-value"><?php esc_html_e('מה בית הספר מקבל', 'school-publisher-shortcodes'); ?></a>
+                        <a href="#spb-sales-system"><?php esc_html_e('להכיר את המערכת', 'school-publisher-shortcodes'); ?></a>
+                        <a href="#spb-sales-process"><?php esc_html_e('איך מתחילים', 'school-publisher-shortcodes'); ?></a>
                     </div>
                 </div>
-                <div class="spb-sales-hero__panel" aria-label="<?php esc_attr_e('תצוגת ספר לדוגמה', 'school-publisher-shortcodes'); ?>">
-                    <div class="spb-sales-preview-card">
-                        <span><?php esc_html_e('ראו את זה בפעולה', 'school-publisher-shortcodes'); ?></span>
-                        <b>▶</b>
+                <div class="spb-sales-visual" aria-label="<?php esc_attr_e('רכזת ספרות בונה ספר', 'school-publisher-shortcodes'); ?>">
+                    <div class="spb-sales-photo"></div>
+                    <div class="spb-sales-floating spb-sales-floating--price">
+                        <span><?php esc_html_e('מחיר משוער', 'school-publisher-shortcodes'); ?></span>
+                        <strong>₪70</strong>
+                        <small><?php esc_html_e('מתעדכן לפי עמודים ובחירות', 'school-publisher-shortcodes'); ?></small>
                     </div>
-                    <div class="spb-sales-timeline">
-                        <span></span>
-                        <strong><?php esc_html_e('1,000+', 'school-publisher-shortcodes'); ?></strong>
-                        <small><?php esc_html_e('יצירות, שירים ומחזות במאגר מתפתח', 'school-publisher-shortcodes'); ?></small>
+                    <div class="spb-sales-floating spb-sales-floating--book">
+                        <strong><?php esc_html_e('ספר שכבה י׳', 'school-publisher-shortcodes'); ?></strong>
+                        <span><?php esc_html_e('שירה · סיפורת · מחזות', 'school-publisher-shortcodes'); ?></span>
                     </div>
-                    <div class="spb-sales-book-row" id="spb-sales-system">
-                        <div class="spb-mini-book spb-mini-book--poetry"><span><?php esc_html_e('שירה', 'school-publisher-shortcodes'); ?></span></div>
-                        <div class="spb-mini-book spb-mini-book--story"><span><?php esc_html_e('סיפורת', 'school-publisher-shortcodes'); ?></span></div>
-                        <div class="spb-mini-book spb-mini-book--play"><span><?php esc_html_e('מחזות', 'school-publisher-shortcodes'); ?></span></div>
-                        <div class="spb-mini-book spb-mini-book--choice"><span><?php esc_html_e('בחירה', 'school-publisher-shortcodes'); ?></span></div>
+                    <div class="spb-sales-mini-stack">
+                        <span><?php esc_html_e('חובה', 'school-publisher-shortcodes'); ?></span>
+                        <span><?php esc_html_e('בחירה', 'school-publisher-shortcodes'); ?></span>
+                        <span><?php esc_html_e('מאושר', 'school-publisher-shortcodes'); ?></span>
                     </div>
                 </div>
             </section>
 
             <section class="spb-sales-strip" id="spb-sales-value">
-                <div><strong><?php esc_html_e('ספר אחד', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('כל החומרים הנבחרים לשנה', 'school-publisher-shortcodes'); ?></span></div>
-                <div><strong><?php esc_html_e('בחירה פדגוגית', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('בהתאם לשכבה, לתכנית ולהעדפות הצוות', 'school-publisher-shortcodes'); ?></span></div>
-                <div><strong><?php esc_html_e('מחיר שקוף', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('סיכום עמודים ותמחור תוך כדי בנייה', 'school-publisher-shortcodes'); ?></span></div>
+                <div><span>01</span><strong><?php esc_html_e('ספר אחד לשנה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('כל הטקסטים שהצוות בחר, מסודרים לתלמידים במקום אחד.', 'school-publisher-shortcodes'); ?></p></div>
+                <div><span>02</span><strong><?php esc_html_e('מותאם לשכבה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('המאגר נפתח לפי כיתה, קטגוריה ומחבר כדי לשמור על בחירה מדויקת.', 'school-publisher-shortcodes'); ?></p></div>
+                <div><span>03</span><strong><?php esc_html_e('שליטה במחיר', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('הרכזת רואה עמודים, תמחור וטווחי בסיס לפני שליחת הבקשה.', 'school-publisher-shortcodes'); ?></p></div>
+            </section>
+
+            <section class="spb-sales-system" id="spb-sales-system">
+                <div class="spb-sales-heading">
+                    <p class="spb-sales-eyebrow"><?php esc_html_e('בתוך המערכת', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('בנייה ברורה, בלי גיליונות מפוזרים ובלי ניחושים', 'school-publisher-shortcodes'); ?></h2>
+                    <p><?php esc_html_e('המערכת מחברת בין מאגר התוכן, הבחירות הפדגוגיות, המחיר והאישור הידני שלכם.', 'school-publisher-shortcodes'); ?></p>
+                </div>
+                <div class="spb-sales-interface">
+                    <div class="spb-sales-interface__screen">
+                        <div class="spb-ui-top"></div>
+                        <div class="spb-ui-grid">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="spb-ui-list">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="spb-sales-interface__aside">
+                        <strong><?php esc_html_e('סיכום בחירה חי', 'school-publisher-shortcodes'); ?></strong>
+                        <p><?php esc_html_e('עמודים, מחיר, כריכה, מחזות ויצירות שנבחרו מתעדכנים בזמן אמת.', 'school-publisher-shortcodes'); ?></p>
+                    </div>
+                </div>
             </section>
 
             <section class="spb-sales-section">
                 <div class="spb-sales-heading">
                     <p class="spb-sales-eyebrow"><?php esc_html_e('למה זה טוב לבית הספר', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('פחות לוגיסטיקה, יותר הוראה', 'school-publisher-shortcodes'); ?></h2>
+                    <h2><?php esc_html_e('חוויה נקייה לרכזת, תוצר ברור לתלמידים', 'school-publisher-shortcodes'); ?></h2>
                 </div>
                 <div class="spb-sales-grid">
                     <article>
-                        <span>01</span>
+                        <span><?php esc_html_e('מאגר', 'school-publisher-shortcodes'); ?></span>
                         <h3><?php esc_html_e('בחירה מסודרת לפי שכבה', 'school-publisher-shortcodes'); ?></h3>
                         <p><?php esc_html_e('הרכזת בוחרת מתוך מאגר שמאורגן לפי כיתות, קטגוריות, מחברים ויצירות פעילות בלבד.', 'school-publisher-shortcodes'); ?></p>
                     </article>
                     <article>
-                        <span>02</span>
+                        <span><?php esc_html_e('פדגוגיה', 'school-publisher-shortcodes'); ?></span>
                         <h3><?php esc_html_e('שילוב חובה ורשות', 'school-publisher-shortcodes'); ?></h3>
                         <p><?php esc_html_e('אפשר לשלב יצירות חובה עם בחירות שהצוות אוהב ללמד, בלי לאבד שליטה על היקף הספר.', 'school-publisher-shortcodes'); ?></p>
                     </article>
                     <article>
-                        <span>03</span>
+                        <span><?php esc_html_e('הפצה', 'school-publisher-shortcodes'); ?></span>
                         <h3><?php esc_html_e('ספר שמוכן לתלמידים', 'school-publisher-shortcodes'); ?></h3>
                         <p><?php esc_html_e('אחרי אישור אישי, נוצר קישור ייעודי שבית הספר שולח לתלמידים לרכישה מרוכזת.', 'school-publisher-shortcodes'); ?></p>
                     </article>

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: School Publisher Shortcodes
  * Description: Book builder and shortcodes for a school-focused publishing website.
- * Version: 0.5.1
+ * Version: 0.5.2
  * Author: Astratego
  * Text Domain: school-publisher-shortcodes
  */
@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('SPB_VERSION', '0.5.1');
+define('SPB_VERSION', '0.5.2');
 define('SPB_PLUGIN_FILE', __FILE__);
 define('SPB_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('SPB_PLUGIN_URL', plugin_dir_url(__FILE__));

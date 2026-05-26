@@ -46,3 +46,7 @@ The plugin supports:
 Coordinators can open a previously saved book from the builder and save it as a new copy for a new year or a revised version.
 
 Every saved book starts as `new` and is not publicly visible until the owner approves it in the admin request screen.
+
+## Live Literature Guidelines
+
+The builder includes live Ministry of Education guideline checks for middle school and high school literature programs. The checklist updates as coordinators choose works and plays, but it does not block saving a book request.

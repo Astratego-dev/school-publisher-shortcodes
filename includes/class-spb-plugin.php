@@ -158,6 +158,15 @@ class SPB_Plugin {
             'spb-import',
             array($this, 'render_import_page')
         );
+
+        add_submenu_page(
+            'spb-dashboard',
+            __('הנחיות משרד החינוך', 'school-publisher-shortcodes'),
+            __('הנחיות משרד החינוך', 'school-publisher-shortcodes'),
+            'manage_options',
+            'spb-guidelines',
+            array($this, 'render_guidelines_page')
+        );
     }
 
     public function register_settings() {
@@ -482,6 +491,20 @@ class SPB_Plugin {
         echo '</form></div></div>';
     }
 
+    public function render_guidelines_page() {
+        $guidelines = $this->literature_guidelines();
+        echo '<div class="wrap spb-admin-page" dir="rtl"><h1>' . esc_html__('הנחיות משרד החינוך', 'school-publisher-shortcodes') . '</h1>';
+        echo '<p>' . esc_html__('הכללים האלה מוצגים לרכז/ת בזמן בניית הספר כסימון חי של וי/איקס. הם אינם חוסמים שמירה, אלא משמשים המלצה ובקרה.', 'school-publisher-shortcodes') . '</p>';
+        foreach ($guidelines as $division) {
+            echo '<div class="spb-admin-panel"><h2>' . esc_html($division['label']) . '</h2><ol>';
+            foreach ($division['rules'] as $rule) {
+                echo '<li>' . esc_html($rule['label']) . '</li>';
+            }
+            echo '</ol></div>';
+        }
+        echo '</div>';
+    }
+
     public function render_sales_home() {
         wp_enqueue_style('spb-frontend');
 
@@ -589,13 +612,26 @@ class SPB_Plugin {
                 <div class="spb-sales-heading">
                     <p class="spb-sales-eyebrow"><?php esc_html_e('איכות ללא פשרות', 'school-publisher-shortcodes'); ?></p>
                     <h2><?php esc_html_e('כל התכנים נבחרים בקפידה ומותאמים לבית הספר', 'school-publisher-shortcodes'); ?></h2>
-                    <p><?php esc_html_e('הספר השנתי מחבר בין דרישות משרד החינוך לבין הבחירות הפדגוגיות של הצוות. התלמידים מקבלים ספר אחד מסודר, נוח וברור לשימוש לאורך השנה.', 'school-publisher-shortcodes'); ?></p>
+                    <p><?php esc_html_e('הספר השנתי מחבר בין דרישות משרד החינוך לבין הבחירות הפדגוגיות של הצוות. התלמידים מקבלים ספר אחד מסודר, איכותי ונוח לשימוש לאורך השנה, עם הדפסה בהתאמה אישית לבית הספר וכריכה קשה שמרגישה כמו ספר אמיתי שנשאר.', 'school-publisher-shortcodes'); ?></p>
                     <div class="spb-sales-quality-icons">
                         <span><?php esc_html_e('מותאם לרמת הכיתה', 'school-publisher-shortcodes'); ?></span>
                         <span><?php esc_html_e('מאגד יצירות ומחזות', 'school-publisher-shortcodes'); ?></span>
-                        <span><?php esc_html_e('חוסך רכישות נפרדות', 'school-publisher-shortcodes'); ?></span>
-                        <span><?php esc_html_e('מוכן לחלוקה בבית הספר', 'school-publisher-shortcodes'); ?></span>
+                        <span><?php esc_html_e('כריכה קשה והדפסה איכותית', 'school-publisher-shortcodes'); ?></span>
+                        <span><?php esc_html_e('עמוד הקדשה לשנת הלימודים', 'school-publisher-shortcodes'); ?></span>
                     </div>
+                </div>
+            </section>
+
+            <section class="spb-sales-dedication">
+                <div>
+                    <p class="spb-sales-eyebrow"><?php esc_html_e('ספר שנראה ומרגיש אישי', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('לא רק קובץ טקסטים, אלא ספר בית ספרי של השנה', 'school-publisher-shortcodes'); ?></h2>
+                </div>
+                <div class="spb-sales-dedication__grid">
+                    <article><span>01</span><strong><?php esc_html_e('כריכה קשה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('ספר עמיד, מכובד ונוח לשימוש יומיומי בכיתה ובבית.', 'school-publisher-shortcodes'); ?></p></article>
+                    <article><span>02</span><strong><?php esc_html_e('הדפסה בהתאמה אישית', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('שם בית הספר, שכבה, שנת לימודים ותוכן שנבחר במיוחד על ידי הצוות.', 'school-publisher-shortcodes'); ?></p></article>
+                    <article><span>03</span><strong><?php esc_html_e('עמוד הקדשה פותח', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('אפשרות להקדשה מאת רכזת הספרות, מנהל/ת בית הספר או צוות השכבה.', 'school-publisher-shortcodes'); ?></p></article>
+                    <article><span>04</span><strong><?php esc_html_e('מוכן לחלוקה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('הזמנות התלמידים מרוכזות, והספרים מגיעים לבית הספר לחלוקה מסודרת.', 'school-publisher-shortcodes'); ?></p></article>
                 </div>
             </section>
 
@@ -911,6 +947,7 @@ class SPB_Plugin {
             'savedBooks' => $this->saved_books_for_current_user(),
             'initialRequest' => $initial_request,
             'pricing' => $this->pricing(),
+            'guidelines' => $this->literature_guidelines(),
             'userFixedPrice' => $this->fixed_price_for_user(get_current_user_id()),
             'labels' => array(
                 'saved' => __('עותק הספר נשמר בהצלחה ונשלח לאישור ידני.', 'school-publisher-shortcodes'),
@@ -1003,6 +1040,13 @@ class SPB_Plugin {
                         <div class="spb-totals">
                             <div><span><?php esc_html_e('עמודים בספר', 'school-publisher-shortcodes'); ?></span><strong data-spb-pages>0</strong></div>
                             <div><span><?php esc_html_e('עלות לתלמיד', 'school-publisher-shortcodes'); ?></span><strong data-spb-price>₪0</strong></div>
+                        </div>
+                        <div class="spb-guidelines" data-spb-guidelines>
+                            <div class="spb-guidelines__head">
+                                <span><?php esc_html_e('הנחיות משרד החינוך', 'school-publisher-shortcodes'); ?></span>
+                                <small><?php esc_html_e('המלצה חיה בלבד - אפשר לשמור גם לפני השלמה.', 'school-publisher-shortcodes'); ?></small>
+                            </div>
+                            <p class="spb-empty"><?php esc_html_e('בחרו שכבה כדי לראות התאמה לדרישות.', 'school-publisher-shortcodes'); ?></p>
                         </div>
                         <h4 class="spb-selected-title"><?php esc_html_e('מה נכנס לספר', 'school-publisher-shortcodes'); ?></h4>
                         <div class="spb-selected" data-spb-selected></div>
@@ -1147,6 +1191,45 @@ class SPB_Plugin {
             'grades' => $this->posts_for_builder('spb_grade'),
             'plays' => $this->items_for_builder('spb_play'),
             'works' => $this->items_for_builder('spb_work'),
+        );
+    }
+
+    private function literature_guidelines() {
+        return array(
+            'middle' => array(
+                'gradeKeywords' => array('כיתה ז', 'כיתה ח', 'כיתה ט', 'שכבה ז', 'שכבה ח', 'שכבה ט', 'חטיבה'),
+                'label' => __('חטיבת הביניים', 'school-publisher-shortcodes'),
+                'rules' => array(
+                    array('label' => __('סיפור חובה אחד של ש"י עגנון', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'categoryAny' => array('סיפורת', 'סיפור'), 'authorAny' => array('עגנון'), 'titleAny' => array('מאויב לאוהב', 'מעשה העז', 'קליפת תפוח זהב')),
+                    array('label' => __('4 סיפורים קצרים בסך הכל', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 4, 'categoryAny' => array('סיפורת', 'סיפור קצר')),
+                    array('label' => __('8 שירים מודרניים', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 8, 'categoryAny' => array('שירה מודרנית', 'שירה')),
+                    array('label' => __('שיר אחד של רחל המשוררת', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'authorAny' => array('רחל')),
+                    array('label' => __('4 פזמונים מאהוד מנור, נעמי שמר, רחל שפירא ואהוד בנאי', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 4, 'categoryAny' => array('פזמון', 'פזמונאות'), 'distinctAuthorsAny' => array('אהוד מנור', 'נעמי שמר', 'רחל שפירא', 'אהוד בנאי'), 'distinctMin' => 4),
+                    array('label' => __('בלדה אחת של שאול טשרניחובסקי', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'categoryAny' => array('בלדה'), 'authorAny' => array('טשרניחובסקי'), 'titleAny' => array('בת הרב ואמה', 'בת הרב', 'על הרי גלבוע')),
+                    array('label' => __('2 בלדות בסך הכל', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 2, 'categoryAny' => array('בלדה')),
+                    array('label' => __('רומנסה אחת', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'categoryAny' => array('רומנסה')),
+                    array('label' => __('מחזה אחד מתאים', 'school-publisher-shortcodes'), 'type' => 'play', 'min' => 1),
+                    array('label' => __('מיתוס אחד', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'categoryAny' => array('מיתולוגיה', 'מיתוס')),
+                    array('label' => __('סיפור עם אחד', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'categoryAny' => array('סיפור עם', 'סיפורי עם')),
+                ),
+            ),
+            'high' => array(
+                'gradeKeywords' => array('כיתה י', 'כיתה יא', 'כיתה יב', 'כיתה י״א', 'כיתה י״ב', 'כיתה י"א', 'כיתה י"ב', 'שכבה י', 'שכבה יא', 'שכבה יב', 'תיכון', 'עליונה'),
+                'label' => __('חטיבה עליונה / תיכון', 'school-publisher-shortcodes'),
+                'rules' => array(
+                    array('label' => __('לפחות 12 שירים בסך הכל', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 12, 'categoryAny' => array('שירה', 'שיר')),
+                    array('label' => __('לפחות 2 שירי ימי הביניים', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 2, 'categoryAny' => array('ימי הביניים')),
+                    array('label' => __('לפחות 2 שירים של ביאליק מתקופת התחייה', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 2, 'categoryAny' => array('תחייה', 'תקופת התחייה'), 'authorAny' => array('ביאליק')),
+                    array('label' => __('3 שירים מהמחצית הראשונה של המאה ה-20, לפחות שני משוררים', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 3, 'categoryAny' => array('מחצית ראשונה', 'המאה ה-20'), 'distinctMin' => 2),
+                    array('label' => __('4 שירים מהמחצית השנייה של המאה ה-20, לפחות שלושה משוררים', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 4, 'categoryAny' => array('מחצית שנייה', 'מודרנית'), 'distinctMin' => 3),
+                    array('label' => __('שירים בעקבות השואה', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 2, 'categoryAny' => array('שואה', 'בעקבות השואה')),
+                    array('label' => __('סיפור חובה אחד של ש"י עגנון', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'categoryAny' => array('סיפורת', 'סיפור'), 'authorAny' => array('עגנון'), 'titleAny' => array('הרופא וגרושתו', 'פרנהיים', 'מדירה לדירה', 'המלבוש')),
+                    array('label' => __('2 סיפורים עבריים', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 2, 'categoryAny' => array('סיפור עברי', 'סיפורת עברית')),
+                    array('label' => __('2 סיפורים מתורגמים', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 2, 'categoryAny' => array('מתורגם', 'סיפורת מתורגמת')),
+                    array('label' => __('מחזה אחד מלא', 'school-publisher-shortcodes'), 'type' => 'play', 'min' => 1),
+                    array('label' => __('רומאן או נובלה אחת', 'school-publisher-shortcodes'), 'type' => 'work', 'min' => 1, 'categoryAny' => array('רומאן', 'רומן', 'נובלה')),
+                ),
+            ),
         );
     }
 
@@ -1316,11 +1399,17 @@ class SPB_Plugin {
                 'id' => $id,
                 'title' => get_the_title($id),
                 'author' => $author_id ? get_the_title($author_id) : '',
+                'category' => $type === 'spb_work' ? $this->primary_work_category_name($id) : '',
                 'pages' => (int) get_post_meta($id, '_spb_pages', true),
                 'price' => $type === 'spb_play' ? $this->money(get_post_meta($id, '_spb_price', true)) : 0,
             );
         }
         return $items;
+    }
+
+    private function primary_work_category_name($post_id) {
+        $terms = get_the_terms($post_id, 'spb_work_category');
+        return (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : '';
     }
 
     private function request_statuses() {

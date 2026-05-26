@@ -30,6 +30,7 @@
         school: root.querySelector('[data-spb-school]'),
         hardcover: root.querySelector('[data-spb-hardcover]'),
         selected: root.querySelector('[data-spb-selected]'),
+        guidelines: root.querySelector('[data-spb-guidelines]'),
         save: root.querySelector('[data-spb-save]'),
         message: root.querySelector('[data-spb-message]'),
         template: root.querySelector('[data-spb-template]'),
@@ -160,6 +161,130 @@
             <li><span>${escapeHtml(item.title)}</span><small>${Number(item.pages || 0)} עמודים</small></li>
         `);
         els.selected.innerHTML = rows.length ? `<ul>${rows.join('')}</ul>` : '<p class="spb-empty">עדיין לא נבחרו פריטים.</p>';
+        renderGuidelines(result.selected);
+    }
+
+    function renderGuidelines(selected) {
+        if (!els.guidelines) {
+            return;
+        }
+        const division = guidelineDivision();
+        if (!state.gradeId || !division) {
+            els.guidelines.innerHTML = `
+                <div class="spb-guidelines__head">
+                    <span>הנחיות משרד החינוך</span>
+                    <small>בחרו שכבה כדי לראות התאמה לדרישות.</small>
+                </div>
+                <p class="spb-empty">הבדיקה תתעדכן בזמן אמת לפי הבחירות שלכם.</p>
+            `;
+            return;
+        }
+
+        const items = selected.plays.concat(selected.works);
+        const rows = (division.rules || []).map((rule) => {
+            const result = evaluateRule(rule, selected, items);
+            const done = result.ok ? 'is-complete' : 'is-missing';
+            const icon = result.ok ? '✓' : '×';
+            return `
+                <li class="${done}">
+                    <b>${icon}</b>
+                    <span>${escapeHtml(rule.label)}</span>
+                    <small>${escapeHtml(result.detail)}</small>
+                </li>
+            `;
+        }).join('');
+
+        els.guidelines.innerHTML = `
+            <div class="spb-guidelines__head">
+                <span>הנחיות משרד החינוך</span>
+                <small>הבדיקה מותאמת לשכבה שנבחרה · המלצה חיה, לא חסימת שמירה</small>
+            </div>
+            <ul>${rows}</ul>
+        `;
+    }
+
+    function guidelineDivision() {
+        const grade = (config.grades || []).find((item) => String(item.id) === String(state.gradeId));
+        const title = normalize(grade ? grade.title : '');
+        const tokens = title.split(/[\s/-]+/).filter(Boolean);
+        const guidelines = config.guidelines || {};
+        if (guidelines.middle && (tokens.includes('ז') || tokens.includes('ח') || tokens.includes('ט') || title.includes('חטיבה'))) {
+            return guidelines.middle;
+        }
+        if (guidelines.high && (tokens.includes('י') || tokens.includes('יא') || tokens.includes('יב') || title.includes('תיכון') || title.includes('עליונה'))) {
+            return guidelines.high;
+        }
+        if (guidelines.middle && (guidelines.middle.gradeKeywords || []).some((keyword) => title.includes(normalize(keyword)))) {
+            return guidelines.middle;
+        }
+        if (guidelines.high && (guidelines.high.gradeKeywords || []).some((keyword) => title.includes(normalize(keyword)))) {
+            return guidelines.high;
+        }
+        return null;
+    }
+
+    function evaluateRule(rule, selected, allItems) {
+        const source = rule.type === 'play' ? selected.plays : (rule.type === 'work' ? selected.works : allItems);
+        const matches = source.filter((item) => matchesRule(item, rule));
+        const count = matches.length;
+        const min = Number(rule.min || 1);
+        const distinctMin = Number(rule.distinctMin || 0);
+        let distinctCount = 0;
+        let ok = count >= min;
+
+        if (distinctMin) {
+            distinctCount = distinctAuthors(matches, rule.distinctAuthorsAny).length;
+            ok = ok && distinctCount >= distinctMin;
+        }
+
+        const detail = distinctMin
+            ? `${count}/${min} פריטים · ${distinctCount}/${distinctMin} יוצרים`
+            : `${count}/${min} נבחרו`;
+        return { ok, detail };
+    }
+
+    function matchesRule(item, rule) {
+        const title = normalize(item.title);
+        const author = normalize(item.author);
+        const category = normalize(item.category);
+        const text = `${title} ${author} ${category}`;
+
+        return matchesAny(category, rule.categoryAny)
+            && matchesAny(author, rule.authorAny)
+            && matchesAny(title, rule.titleAny)
+            && matchesAny(text, rule.textAny);
+    }
+
+    function matchesAny(value, needles) {
+        if (!needles || !needles.length) {
+            return true;
+        }
+        return needles.some((needle) => value.includes(normalize(needle)));
+    }
+
+    function distinctAuthors(items, allowedAuthors) {
+        const names = new Set();
+        items.forEach((item) => {
+            const author = normalize(item.author || '');
+            if (!author) {
+                return;
+            }
+            if (allowedAuthors && allowedAuthors.length && !allowedAuthors.some((name) => author.includes(normalize(name)))) {
+                return;
+            }
+            names.add(author);
+        });
+        return Array.from(names);
+    }
+
+    function normalize(value) {
+        return String(value || '')
+            .replace(/[״"]/g, '')
+            .replace(/[׳']/g, '')
+            .replace(/־/g, '-')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .toLowerCase();
     }
 
     function renderAll() {

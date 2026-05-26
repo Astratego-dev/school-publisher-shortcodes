@@ -10,6 +10,7 @@
 .spb-public-request *,
 .spb-notice * {
     box-sizing: border-box;
+    font-family: inherit;
 }
 
 .spb-builder {
@@ -520,6 +521,7 @@
 
 .spb-sales * {
     box-sizing: border-box;
+    font-family: inherit;
 }
 
 .spb-sales-hero {
@@ -2519,6 +2521,148 @@
     text-decoration: none;
 }
 
+.spb-sales-dedication {
+    align-items: start;
+    display: grid;
+    gap: 28px;
+    grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+    padding: 8px 0 52px;
+}
+
+.spb-sales-dedication__grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.spb-sales-dedication article {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid var(--spb-sales-line);
+    border-radius: 8px;
+    box-shadow: 0 16px 38px rgba(18, 52, 36, 0.055);
+    display: grid;
+    gap: 8px;
+    min-height: 160px;
+    padding: 20px;
+}
+
+.spb-sales-dedication span {
+    align-items: center;
+    background: #edf8ef;
+    border: 1px solid #d7e8d9;
+    border-radius: 8px;
+    color: var(--spb-sales-green);
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 900;
+    height: 34px;
+    justify-content: center;
+    width: 42px;
+}
+
+.spb-sales-dedication strong {
+    color: var(--spb-sales-dark);
+    font-size: 17px;
+}
+
+.spb-sales-dedication p {
+    color: var(--spb-sales-muted);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.spb-guidelines {
+    background: #fbfefb;
+    border: 1px solid var(--spb-border);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    margin: 0 0 18px;
+    padding: 14px;
+}
+
+.spb-guidelines__head {
+    border-bottom: 1px solid #e2ece2;
+    display: grid;
+    gap: 4px;
+    padding-bottom: 10px;
+}
+
+.spb-guidelines__head span {
+    color: var(--spb-text);
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.spb-guidelines__head small {
+    color: var(--spb-muted);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.spb-guidelines ul {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    max-height: 330px;
+    overflow: auto;
+    padding: 0;
+}
+
+.spb-guidelines li {
+    align-items: start;
+    background: #fff;
+    border: 1px solid #e2ece2;
+    border-radius: 8px;
+    display: grid;
+    gap: 3px 9px;
+    grid-template-columns: 24px minmax(0, 1fr);
+    padding: 9px 10px;
+}
+
+.spb-guidelines li b {
+    align-items: center;
+    background: #f3f5f3;
+    border-radius: 999px;
+    color: #9a3328;
+    display: inline-flex;
+    font-size: 14px;
+    font-weight: 900;
+    height: 22px;
+    justify-content: center;
+    line-height: 1;
+    width: 22px;
+}
+
+.spb-guidelines li span {
+    color: var(--spb-text);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.45;
+}
+
+.spb-guidelines li small {
+    color: var(--spb-muted);
+    font-size: 11px;
+    grid-column: 2;
+}
+
+.spb-guidelines li.is-complete {
+    background: #f2fbf4;
+    border-color: #cbe5cf;
+}
+
+.spb-guidelines li.is-complete b {
+    background: var(--spb-green);
+    color: #fff;
+}
+
+.spb-guidelines li.is-complete span {
+    color: var(--spb-green-dark);
+}
+
 @media (max-width: 960px) {
     .spb-sales > section {
         width: calc(100% - 24px);
@@ -2528,6 +2672,10 @@
     .spb-sales-system,
     .spb-sales-quality,
     .spb-sales-pricing {
+        grid-template-columns: 1fr;
+    }
+
+    .spb-sales-dedication {
         grid-template-columns: 1fr;
     }
 
@@ -2613,6 +2761,10 @@
     }
 
     .spb-sales-interface {
+        grid-template-columns: 1fr;
+    }
+
+    .spb-sales-dedication__grid {
         grid-template-columns: 1fr;
     }
 

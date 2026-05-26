@@ -7,6 +7,7 @@ WordPress plugin for building school literature books from a managed catalog of 
 - `[school_book_builder]` - logged-in school coordinator interface for choosing a grade, plays, literary works, hardcover option, and saving a book request.
 - `[school_book_request]` - public request summary shortcode for future approval/order pages.
 - `[school_publisher_home]` - marketing homepage for literature coordinators.
+- `[school_literature_activities]` - coming-soon activities page for Antigone learning games and quests.
 
 ## Admin Workflow
 

@@ -39,6 +39,7 @@ class SPB_Plugin {
         add_filter('manage_spb_book_request_posts_columns', array($this, 'request_columns'));
         add_action('manage_spb_book_request_posts_custom_column', array($this, 'render_request_column'), 10, 2);
         add_shortcode('school_publisher_home', array($this, 'render_sales_home'));
+        add_shortcode('school_literature_activities', array($this, 'render_activities_page'));
         add_shortcode('school_book_builder', array($this, 'render_book_builder'));
         add_shortcode('school_book_request', array($this, 'render_book_request'));
         add_action('wp_ajax_spb_save_book_request', array($this, 'ajax_save_book_request'));
@@ -455,6 +456,7 @@ class SPB_Plugin {
         echo '<div class="spb-admin-panel"><h2>' . esc_html__('התחלה מהירה', 'school-publisher-shortcodes') . '</h2>';
         echo '<ol><li>' . esc_html__('מוסיפים כיתות ומחברים.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מעלים יצירות ומחזות ידנית או דרך מסך הייבוא.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מסמנים פריטים כפעילים כדי שיופיעו לבתי הספר.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('יוצרים עמוד באתר עם השורטקוד של הבונה.', 'school-publisher-shortcodes') . '</li></ol>';
         echo '<p><strong>' . esc_html__('שורטקוד עמוד הבית השיווקי:', 'school-publisher-shortcodes') . '</strong> <code>[school_publisher_home]</code></p>';
+        echo '<p><strong>' . esc_html__('שורטקוד עמוד פעילויות:', 'school-publisher-shortcodes') . '</strong> <code>[school_literature_activities]</code></p>';
         echo '<p><strong>' . esc_html__('שורטקוד בונה הספר:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_builder]</code></p>';
         echo '<p><strong>' . esc_html__('שורטקוד להצגת בקשה ציבורית:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_request]</code></p></div>';
         echo '</div>';
@@ -588,6 +590,58 @@ class SPB_Plugin {
                     <li><strong><?php esc_html_e('אישור אישי', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('אנחנו בודקים את הבחירה, מוודאים פרטים ומאשרים לפרסום.', 'school-publisher-shortcodes'); ?></span></li>
                     <li><strong><?php esc_html_e('קישור לתלמידים', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('בית הספר שולח קישור ייעודי, ואנחנו מרכזים רכישות, הדפסה ומשלוח.', 'school-publisher-shortcodes'); ?></span></li>
                 </ol>
+            </section>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    public function render_activities_page() {
+        wp_enqueue_style('spb-frontend');
+
+        ob_start();
+        ?>
+        <div class="spb-activities" dir="rtl">
+            <section class="spb-activities-hero">
+                <div class="spb-activities-copy">
+                    <p class="spb-sales-eyebrow"><?php esc_html_e('פעילויות ספרות אינטראקטיביות', 'school-publisher-shortcodes'); ?></p>
+                    <h1><?php esc_html_e('אנטיגונה הופכת לעולם של משימות, מילים ובחירות', 'school-publisher-shortcodes'); ?></h1>
+                    <p><?php esc_html_e('בקרוב נפתח מרחב משחקי ללמידה סביב יצירות ספרות: משחקי מילים, משימות בגוף ראשון, חידות על דמויות וקונפליקטים, והתקדמות לימודית שמרגישה כמו מסע.', 'school-publisher-shortcodes'); ?></p>
+                    <div class="spb-activities-tags">
+                        <span><?php esc_html_e('משחקי מילים', 'school-publisher-shortcodes'); ?></span>
+                        <span><?php esc_html_e('קווסטים לימודיים', 'school-publisher-shortcodes'); ?></span>
+                        <span><?php esc_html_e('עולם בגוף ראשון', 'school-publisher-shortcodes'); ?></span>
+                    </div>
+                </div>
+                <div class="spb-activities-world" aria-label="<?php esc_attr_e('תצוגת פעילות אנטיגונה', 'school-publisher-shortcodes'); ?>">
+                    <div class="spb-quest-card">
+                        <span><?php esc_html_e('בקרוב', 'school-publisher-shortcodes'); ?></span>
+                        <strong><?php esc_html_e('Antigone Quest', 'school-publisher-shortcodes'); ?></strong>
+                        <p><?php esc_html_e('היכנסו לתבאי, פגשו דמויות, פתרו חידות וקבלו החלטות שמחדדות הבנה של הטרגדיה.', 'school-publisher-shortcodes'); ?></p>
+                    </div>
+                    <div class="spb-word-card">
+                        <b><?php esc_html_e('מילה', 'school-publisher-shortcodes'); ?></b>
+                        <span><?php esc_html_e('חוק · נאמנות · מצפון', 'school-publisher-shortcodes'); ?></span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="spb-activities-grid">
+                <article>
+                    <span>01</span>
+                    <h3><?php esc_html_e('משחקי מושגים', 'school-publisher-shortcodes'); ?></h3>
+                    <p><?php esc_html_e('התלמידים יחברו בין מושגים, ציטוטים, דמויות וסצנות מתוך היצירה.', 'school-publisher-shortcodes'); ?></p>
+                </article>
+                <article>
+                    <span>02</span>
+                    <h3><?php esc_html_e('קווסטים בגוף ראשון', 'school-publisher-shortcodes'); ?></h3>
+                    <p><?php esc_html_e('המשתמש מתקדם בעולם של אנטיגונה דרך משימות קצרות שמבוססות על הבנת העלילה והקונפליקט.', 'school-publisher-shortcodes'); ?></p>
+                </article>
+                <article>
+                    <span>03</span>
+                    <h3><?php esc_html_e('חידות לקראת שיעור', 'school-publisher-shortcodes'); ?></h3>
+                    <p><?php esc_html_e('פעילויות קצרות לפתיחת שיעור, סיכום פרק או הכנה לדיון כיתתי.', 'school-publisher-shortcodes'); ?></p>
+                </article>
             </section>
         </div>
         <?php

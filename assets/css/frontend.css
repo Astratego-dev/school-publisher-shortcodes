@@ -3,7 +3,7 @@
 .spb-notice {
     box-sizing: border-box;
     color: #12231f;
-    font-family: inherit;
+    font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .spb-builder *,
@@ -13,32 +13,32 @@
 }
 
 .spb-builder {
-    --spb-bg: #f3f7f3;
+    --spb-bg: #f6f8f4;
     --spb-surface: #ffffff;
-    --spb-surface-strong: #eef8f1;
+    --spb-surface-strong: #f0f7f2;
     --spb-border: #dce8df;
     --spb-border-strong: #bdd8c7;
-    --spb-text: #12231f;
-    --spb-muted: #687a72;
-    --spb-green: #1f9a73;
-    --spb-green-dark: #08664f;
+    --spb-text: #10201b;
+    --spb-muted: #68756f;
+    --spb-green: #238965;
+    --spb-green-dark: #14362d;
     --spb-mint: #65d9a4;
-    --spb-blue: #2474c4;
-    --spb-yellow: #ffd166;
-    --spb-shadow: 0 22px 55px rgba(12, 56, 43, 0.10);
+    --spb-shadow: 0 22px 55px rgba(16, 32, 27, 0.08);
     background:
-        radial-gradient(circle at 90% 0%, rgba(101, 217, 164, 0.24), transparent 30%),
+        radial-gradient(circle at 90% 0%, rgba(35, 137, 101, 0.14), transparent 30%),
         linear-gradient(180deg, #fbfdfb 0%, var(--spb-bg) 100%);
     display: grid;
-    gap: 22px;
+    gap: 18px;
     max-width: 1220px;
     margin: 0 auto;
-    padding: 24px;
+    padding: 18px;
 }
 
 .spb-hero {
     align-items: end;
-    background: linear-gradient(135deg, #063f35 0%, #0f6b53 52%, #23a875 100%);
+    background:
+        linear-gradient(135deg, rgba(20, 54, 45, 0.96), rgba(35, 137, 101, 0.90)),
+        url("../img/literature-hero.png") center / cover no-repeat;
     border-radius: 8px;
     box-shadow: var(--spb-shadow);
     color: #fff;
@@ -46,7 +46,7 @@
     gap: 26px;
     grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
     overflow: hidden;
-    padding: 34px;
+    padding: 28px;
     position: relative;
 }
 
@@ -68,8 +68,8 @@
 }
 
 .spb-eyebrow {
-    color: #cbffe4;
-    font-size: 14px;
+    color: #bce8cf;
+    font-size: 13px;
     font-weight: 800;
     margin: 0 0 7px;
 }
@@ -84,13 +84,13 @@
 
 .spb-hero h2 {
     color: #fff;
-    font-size: 40px;
+    font-size: 34px;
     max-width: 720px;
 }
 
 .spb-hero p {
     color: rgba(255, 255, 255, 0.82);
-    font-size: 17px;
+    font-size: 15px;
     line-height: 1.7;
     margin: 12px 0 0;
     max-width: 680px;
@@ -104,26 +104,26 @@
 
 .spb-hero__metrics div,
 .spb-totals div {
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.64);
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.72);
     border-radius: 8px;
     display: grid;
     gap: 4px;
     min-width: 0;
-    padding: 16px;
+    padding: 14px;
 }
 
 .spb-hero__metrics span,
 .spb-totals span {
     color: var(--spb-muted);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
 }
 
 .spb-hero__metrics strong,
 .spb-totals strong {
     color: var(--spb-green-dark);
-    font-size: 28px;
+    font-size: 24px;
     line-height: 1;
 }
 
@@ -142,8 +142,9 @@
     color: var(--spb-muted);
     display: flex;
     gap: 9px;
-    min-height: 52px;
-    padding: 10px 12px;
+    min-height: 48px;
+    padding: 9px 12px;
+    font-size: 13px;
 }
 
 .spb-steps b {
@@ -181,8 +182,8 @@
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid var(--spb-border);
     border-radius: 8px;
-    box-shadow: 0 12px 35px rgba(18, 35, 31, 0.045);
-    padding: 22px;
+    box-shadow: 0 12px 32px rgba(16, 32, 27, 0.045);
+    padding: 18px;
 }
 
 .spb-panel--grade {
@@ -213,7 +214,7 @@
 
 .spb-panel-heading h3,
 .spb-summary-head h3 {
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .spb-field {
@@ -224,7 +225,7 @@
 .spb-field span,
 .spb-check {
     color: var(--spb-muted);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 800;
 }
 
@@ -235,8 +236,9 @@
     border-radius: 8px;
     color: var(--spb-text);
     font: inherit;
-    min-height: 48px;
-    padding: 10px 13px;
+    font-size: 14px;
+    min-height: 44px;
+    padding: 9px 12px;
     width: 100%;
 }
 
@@ -333,13 +335,13 @@
 
 .spb-play-card__body strong {
     color: var(--spb-text);
-    font-size: 17px;
+    font-size: 15px;
 }
 
 .spb-play-card__body span,
 .spb-work-row span {
     color: var(--spb-muted);
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .spb-work-group {
@@ -954,6 +956,176 @@
     color: rgba(255, 255, 255, 0.72);
 }
 
+.spb-activities {
+    --spb-act-ink: #10201b;
+    --spb-act-muted: #69766f;
+    --spb-act-green: #238965;
+    --spb-act-dark: #132822;
+    --spb-act-gold: #d8b75c;
+    --spb-act-line: #dce8df;
+    background:
+        radial-gradient(circle at 82% 18%, rgba(216, 183, 92, 0.18), transparent 30%),
+        linear-gradient(180deg, #fbfaf5 0%, #eef5ef 100%);
+    color: var(--spb-act-ink);
+    display: grid;
+    font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    gap: 18px;
+    margin: 0 auto;
+    max-width: 1220px;
+    padding: 18px;
+}
+
+.spb-activities * {
+    box-sizing: border-box;
+}
+
+.spb-activities-hero {
+    background: linear-gradient(135deg, #fff 0%, #f5f8f2 100%);
+    border: 1px solid var(--spb-act-line);
+    border-radius: 8px;
+    box-shadow: 0 22px 55px rgba(16, 32, 27, 0.08);
+    display: grid;
+    gap: 28px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+    overflow: hidden;
+    padding: 34px;
+}
+
+.spb-activities-copy {
+    align-self: center;
+    display: grid;
+    gap: 18px;
+}
+
+.spb-activities h1 {
+    color: var(--spb-act-dark);
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 900;
+    line-height: 1.08;
+    margin: 0;
+}
+
+.spb-activities p {
+    color: var(--spb-act-muted);
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.spb-activities-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.spb-activities-tags span {
+    background: #fff;
+    border: 1px solid var(--spb-act-line);
+    border-radius: 999px;
+    color: var(--spb-act-dark);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 9px 13px;
+}
+
+.spb-activities-world {
+    background:
+        linear-gradient(135deg, rgba(19, 40, 34, 0.90), rgba(35, 137, 101, 0.82)),
+        radial-gradient(circle at 28% 34%, rgba(216, 183, 92, 0.35), transparent 28%);
+    border-radius: 8px;
+    min-height: 420px;
+    overflow: hidden;
+    position: relative;
+}
+
+.spb-activities-world:before {
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 42px 42px;
+    content: "";
+    inset: 0;
+    opacity: 0.38;
+    position: absolute;
+}
+
+.spb-quest-card,
+.spb-word-card {
+    backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 8px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
+    display: grid;
+    gap: 8px;
+    position: absolute;
+}
+
+.spb-quest-card {
+    left: 32px;
+    padding: 22px;
+    top: 34px;
+    width: min(330px, calc(100% - 64px));
+}
+
+.spb-quest-card span {
+    color: var(--spb-act-green);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.spb-quest-card strong {
+    color: var(--spb-act-dark);
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.spb-word-card {
+    bottom: 32px;
+    right: 32px;
+    padding: 18px;
+    width: 250px;
+}
+
+.spb-word-card b {
+    color: var(--spb-act-gold);
+    font-size: 13px;
+}
+
+.spb-word-card span {
+    color: var(--spb-act-dark);
+    font-weight: 800;
+}
+
+.spb-activities-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.spb-activities-grid article {
+    background: #fff;
+    border: 1px solid var(--spb-act-line);
+    border-radius: 8px;
+    box-shadow: 0 16px 38px rgba(16, 32, 27, 0.06);
+    display: grid;
+    gap: 10px;
+    min-height: 210px;
+    padding: 22px;
+}
+
+.spb-activities-grid span {
+    color: var(--spb-act-green);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.spb-activities-grid h3 {
+    color: var(--spb-act-dark);
+    font-size: 21px;
+    margin: 0;
+}
+
 @media (max-width: 960px) {
     .spb-hero,
     .spb-grid,
@@ -1121,5 +1293,564 @@
 
     .spb-sales-process li span {
         grid-column: 2;
+    }
+}
+
+/* Refined visual language */
+.spb-builder {
+    --spb-bg: #fbfaf5;
+    --spb-surface: #ffffff;
+    --spb-surface-strong: #f3f8f1;
+    --spb-border: #dfe9df;
+    --spb-border-strong: #bed9c6;
+    --spb-text: #17231f;
+    --spb-muted: #6c766f;
+    --spb-green: #257d45;
+    --spb-green-dark: #0f3627;
+    --spb-mint: #dff4e5;
+    --spb-shadow: 0 24px 60px rgba(15, 54, 39, 0.08);
+    background:
+        linear-gradient(90deg, rgba(37, 125, 69, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, #fffef9 0%, #f1f7f0 100%);
+    background-size: 28px 28px, auto;
+    gap: 14px;
+    padding: 16px;
+}
+
+.spb-hero {
+    align-items: center;
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 244, 0.92)),
+        url("../img/literature-hero.png") left center / 46% auto no-repeat;
+    border: 1px solid var(--spb-border);
+    color: var(--spb-text);
+    min-height: 310px;
+    padding: 30px;
+}
+
+.spb-hero:before {
+    background:
+        radial-gradient(circle at 9% 18%, rgba(37, 125, 69, 0.12), transparent 24%),
+        linear-gradient(180deg, transparent, rgba(15, 54, 39, 0.03));
+    opacity: 1;
+}
+
+.spb-eyebrow,
+.spb-panel-kicker,
+.spb-summary-head span {
+    color: var(--spb-green);
+    font-size: 12px;
+}
+
+.spb-hero h2 {
+    color: var(--spb-text);
+    font-size: clamp(28px, 3.2vw, 42px);
+    font-weight: 900;
+    max-width: 620px;
+}
+
+.spb-hero p {
+    color: var(--spb-muted);
+    font-size: 14px;
+    max-width: 560px;
+}
+
+.spb-hero__metrics div,
+.spb-totals div {
+    background: rgba(255, 255, 255, 0.86);
+    border-color: var(--spb-border);
+    box-shadow: 0 14px 34px rgba(15, 54, 39, 0.06);
+}
+
+.spb-hero__metrics strong,
+.spb-totals strong {
+    color: var(--spb-green);
+    font-size: 22px;
+}
+
+.spb-steps {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid var(--spb-border);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.spb-steps span {
+    background: transparent;
+    border-color: transparent;
+    font-size: 12px;
+    min-height: 44px;
+}
+
+.spb-steps .is-active {
+    background: #eef8ef;
+    border-color: #d6e8d8;
+    box-shadow: inset 0 -2px 0 var(--spb-green);
+}
+
+.spb-grid {
+    gap: 18px;
+}
+
+.spb-panel {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(190, 217, 198, 0.86);
+    box-shadow: 0 18px 48px rgba(15, 54, 39, 0.055);
+    padding: 20px;
+}
+
+.spb-panel--grade {
+    background: linear-gradient(135deg, #ffffff 0%, #f6fbf5 100%);
+}
+
+.spb-panel--sticky {
+    background:
+        linear-gradient(180deg, #ffffff 0%, #f5fbf6 100%);
+}
+
+.spb-panel-heading h3,
+.spb-summary-head h3 {
+    font-size: 18px;
+}
+
+.spb-field span,
+.spb-check,
+.spb-play-card__body span,
+.spb-work-row span {
+    font-size: 12px;
+}
+
+.spb-field input,
+.spb-field select {
+    border-color: #d5e3d8;
+    font-size: 13px;
+    min-height: 42px;
+}
+
+.spb-check {
+    background: #f7fbf6;
+    padding: 10px 12px;
+}
+
+.spb-play-card {
+    border-color: #dce8df;
+    box-shadow: 0 12px 26px rgba(15, 54, 39, 0.04);
+    padding: 8px;
+}
+
+.spb-play-card img,
+.spb-card__placeholder {
+    background:
+        linear-gradient(135deg, rgba(15, 54, 39, 0.08), rgba(37, 125, 69, 0.12)),
+        #f3f7f1;
+}
+
+.spb-play-card__body strong {
+    font-size: 14px;
+}
+
+.spb-work-group {
+    border-color: #dce8df;
+    box-shadow: 0 12px 30px rgba(15, 54, 39, 0.035);
+}
+
+.spb-work-group h4 {
+    background: #fbfdf9;
+    font-size: 16px;
+}
+
+.spb-work-row {
+    font-size: 13px;
+    grid-template-columns: 22px minmax(0, 1.35fr) minmax(0, 1fr) 82px;
+    min-height: 50px;
+}
+
+.spb-badge {
+    background: #fff3d1;
+    font-size: 11px !important;
+}
+
+.spb-selected li,
+.spb-empty {
+    font-size: 13px;
+}
+
+.spb-button {
+    background: #1f7a46;
+    box-shadow: 0 16px 30px rgba(31, 122, 70, 0.22);
+    font-size: 14px;
+    min-height: 46px;
+}
+
+.spb-sales {
+    --spb-sales-ink: #15231f;
+    --spb-sales-muted: #68756f;
+    --spb-sales-green: #257d45;
+    --spb-sales-soft: #eef7ef;
+    --spb-sales-cream: #fffdf7;
+    --spb-sales-line: #dfe9df;
+    --spb-sales-dark: #0f3627;
+    background:
+        linear-gradient(90deg, rgba(37, 125, 69, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, #fffdf7 0%, #f0f7ef 100%);
+    background-size: 30px 30px, auto;
+    gap: 18px;
+    padding: 16px;
+}
+
+.spb-sales-hero {
+    background:
+        radial-gradient(circle at 10% 12%, rgba(37, 125, 69, 0.10), transparent 25%),
+        linear-gradient(90deg, #fffdf7 0%, #f8fbf4 48%, #eef6ee 100%);
+    box-shadow: 0 30px 80px rgba(15, 54, 39, 0.10);
+    gap: 26px;
+    min-height: 680px;
+    padding: 24px 28px 30px;
+}
+
+.spb-sales-nav {
+    border-bottom: 1px solid rgba(223, 233, 223, 0.8);
+    padding-bottom: 18px;
+}
+
+.spb-sales-nav strong {
+    font-size: 18px;
+}
+
+.spb-sales-nav strong:before {
+    background:
+        linear-gradient(135deg, #eef8ef, #ffffff);
+    border: 1px solid #cfe2d1;
+    box-shadow: inset 0 0 0 7px #257d45;
+    height: 30px;
+    width: 30px;
+}
+
+.spb-sales-nav a {
+    font-size: 13px;
+}
+
+.spb-sales-contact {
+    background: #257d45;
+    box-shadow: 0 12px 24px rgba(37, 125, 69, 0.18);
+    font-size: 13px;
+    padding: 10px 16px;
+}
+
+.spb-sales-hero__copy {
+    gap: 16px;
+    padding: 28px 6px 38px;
+}
+
+.spb-sales-eyebrow {
+    font-size: 12px;
+}
+
+.spb-sales h1 {
+    font-size: clamp(40px, 5vw, 68px);
+    max-width: 640px;
+}
+
+.spb-sales h2 {
+    font-size: clamp(28px, 3.4vw, 44px);
+}
+
+.spb-sales h3 {
+    font-size: 19px;
+}
+
+.spb-sales-hero p,
+.spb-sales-heading p {
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.spb-sales-actions a {
+    font-size: 13px;
+    min-height: 46px;
+    padding: 0 18px;
+}
+
+.spb-sales-visual {
+    min-height: 560px;
+}
+
+.spb-sales-photo {
+    border: 10px solid rgba(255, 255, 255, 0.72);
+    box-shadow: 0 30px 80px rgba(15, 54, 39, 0.18);
+    inset: 12px 0 34px 28px;
+}
+
+.spb-sales-floating {
+    border-color: rgba(223, 233, 223, 0.95);
+    box-shadow: 0 18px 48px rgba(15, 54, 39, 0.14);
+    padding: 16px;
+}
+
+.spb-sales-floating strong {
+    font-size: 24px;
+}
+
+.spb-sales-floating span,
+.spb-sales-floating small,
+.spb-sales-mini-stack span {
+    font-size: 11px;
+}
+
+.spb-sales-strip div,
+.spb-sales-grid article,
+.spb-sales-system,
+.spb-sales-process {
+    box-shadow: 0 18px 48px rgba(15, 54, 39, 0.055);
+}
+
+.spb-sales-strip div {
+    min-height: 150px;
+    padding: 20px;
+}
+
+.spb-sales-strip span,
+.spb-sales-grid article span {
+    align-items: center;
+    background: #edf8ef;
+    border: 1px solid #d7e8d9;
+    border-radius: 8px;
+    color: var(--spb-sales-green);
+    display: inline-flex;
+    font-size: 12px;
+    height: 34px;
+    justify-content: center;
+    width: 42px;
+}
+
+.spb-sales-strip strong {
+    font-size: 20px;
+}
+
+.spb-sales-strip p,
+.spb-sales-grid p,
+.spb-sales-process span {
+    font-size: 14px;
+}
+
+.spb-sales-system {
+    gap: 24px;
+    padding: 30px;
+}
+
+.spb-sales-interface {
+    background:
+        linear-gradient(135deg, rgba(238, 247, 239, 0.92), rgba(255, 255, 255, 0.88));
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+}
+
+.spb-ui-top {
+    background:
+        linear-gradient(90deg, #f9fcf7, #ffffff);
+    border: 1px solid var(--spb-sales-line);
+    height: 46px;
+    position: relative;
+}
+
+.spb-ui-top:after {
+    background: #257d45;
+    border-radius: 999px;
+    content: "";
+    height: 8px;
+    left: 16px;
+    position: absolute;
+    top: 18px;
+    width: 86px;
+}
+
+.spb-ui-grid span {
+    height: 96px;
+}
+
+.spb-sales-interface__aside strong {
+    font-size: 18px;
+}
+
+.spb-sales-interface__aside p {
+    font-size: 13px;
+}
+
+.spb-sales-grid article {
+    min-height: 230px;
+    padding: 24px;
+}
+
+.spb-sales-grid article:before {
+    background: linear-gradient(135deg, rgba(37, 125, 69, 0.12), transparent);
+}
+
+.spb-sales-process {
+    background:
+        linear-gradient(135deg, #0f3627, #164733 64%, #0f3627);
+    padding: 30px;
+}
+
+.spb-sales-process li {
+    background: rgba(255, 255, 255, 0.075);
+    font-size: 14px;
+    padding: 14px;
+}
+
+.spb-sales-process li:before {
+    background: #dcf4e2;
+    height: 36px;
+    width: 36px;
+}
+
+.spb-activities {
+    background:
+        linear-gradient(90deg, rgba(37, 125, 69, 0.045) 1px, transparent 1px),
+        linear-gradient(180deg, #fffdf7 0%, #eef7ef 100%);
+    background-size: 30px 30px, auto;
+    gap: 18px;
+    padding: 16px;
+}
+
+.spb-activities-hero {
+    background:
+        radial-gradient(circle at 12% 16%, rgba(216, 183, 92, 0.12), transparent 25%),
+        linear-gradient(90deg, #fffdf7 0%, #f7fbf4 52%, #eef7ef 100%);
+    box-shadow: 0 28px 70px rgba(15, 54, 39, 0.09);
+    min-height: 560px;
+    padding: 30px;
+}
+
+.spb-activities-copy {
+    gap: 16px;
+}
+
+.spb-activities h1 {
+    font-size: clamp(36px, 4.8vw, 64px);
+    max-width: 680px;
+}
+
+.spb-activities p {
+    font-size: 14px;
+    max-width: 620px;
+}
+
+.spb-activities-tags span {
+    background: rgba(255, 255, 255, 0.84);
+    font-size: 12px;
+}
+
+.spb-activities-world {
+    background:
+        linear-gradient(135deg, rgba(15, 54, 39, 0.94), rgba(37, 125, 69, 0.78)),
+        url("../img/literature-hero.png") center / cover no-repeat;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 28px 70px rgba(15, 54, 39, 0.15);
+    min-height: 470px;
+}
+
+.spb-activities-world:after {
+    border: 1px solid rgba(216, 183, 92, 0.5);
+    border-radius: 8px;
+    bottom: 28px;
+    content: "";
+    left: 34px;
+    position: absolute;
+    right: 34px;
+    top: 28px;
+}
+
+.spb-quest-card,
+.spb-word-card {
+    z-index: 1;
+}
+
+.spb-quest-card {
+    width: min(360px, calc(100% - 64px));
+}
+
+.spb-quest-card strong {
+    font-size: 26px;
+}
+
+.spb-quest-card p,
+.spb-word-card span {
+    font-size: 13px;
+}
+
+.spb-word-card {
+    width: 270px;
+}
+
+.spb-activities-grid article {
+    box-shadow: 0 18px 48px rgba(15, 54, 39, 0.055);
+    min-height: 190px;
+    padding: 22px;
+}
+
+.spb-activities-grid span {
+    align-items: center;
+    background: #edf8ef;
+    border: 1px solid #d7e8d9;
+    border-radius: 8px;
+    display: inline-flex;
+    font-size: 12px;
+    height: 34px;
+    justify-content: center;
+    width: 42px;
+}
+
+.spb-activities-grid h3 {
+    font-size: 18px;
+}
+
+@media (max-width: 960px) {
+    .spb-activities-hero,
+    .spb-activities-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .spb-hero {
+        background:
+            linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 244, 0.92)),
+            url("../img/literature-hero.png") center bottom / cover no-repeat;
+    }
+}
+
+@media (max-width: 620px) {
+    .spb-builder,
+    .spb-sales,
+    .spb-activities {
+        padding: 12px;
+    }
+
+    .spb-hero,
+    .spb-sales-hero,
+    .spb-activities-hero {
+        padding: 20px;
+    }
+
+    .spb-hero h2,
+    .spb-sales h1,
+    .spb-activities h1 {
+        font-size: 32px;
+    }
+
+    .spb-sales h2 {
+        font-size: 26px;
+    }
+
+    .spb-activities-world {
+        min-height: 430px;
+    }
+
+    .spb-quest-card {
+        left: 18px;
+        top: 20px;
+        width: calc(100% - 36px);
+    }
+
+    .spb-word-card {
+        bottom: 20px;
+        right: 18px;
+        width: calc(100% - 36px);
     }
 }

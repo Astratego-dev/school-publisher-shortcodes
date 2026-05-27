@@ -152,6 +152,15 @@ class SPB_Plugin {
 
         add_submenu_page(
             'spb-dashboard',
+            __('הגדרות עמוד הבית', 'school-publisher-shortcodes'),
+            __('עמוד הבית', 'school-publisher-shortcodes'),
+            'manage_options',
+            'spb-home',
+            array($this, 'render_home_settings_page')
+        );
+
+        add_submenu_page(
+            'spb-dashboard',
             __('ייבוא מאגר תוכן', 'school-publisher-shortcodes'),
             __('ייבוא מאגר תוכן', 'school-publisher-shortcodes'),
             'manage_options',
@@ -174,6 +183,10 @@ class SPB_Plugin {
         register_setting('spb_pricing', 'spb_pricing', array(
             'type' => 'array',
             'sanitize_callback' => array($this, 'sanitize_pricing'),
+        ));
+        register_setting('spb_home', 'spb_home_content', array(
+            'type' => 'array',
+            'sanitize_callback' => array($this, 'sanitize_home_content'),
         ));
     }
 
@@ -204,6 +217,22 @@ class SPB_Plugin {
             'fixed_price' => $fixed_price === '' ? '' : $this->money($fixed_price),
             'user_special_prices' => sanitize_textarea_field($value['user_special_prices'] ?? ''),
         );
+    }
+
+    public function sanitize_home_content($value) {
+        $defaults = $this->home_content_defaults();
+        $clean = array();
+        foreach ($defaults as $key => $default) {
+            $incoming = $value[$key] ?? $default;
+            if (substr($key, -6) === '_image') {
+                $clean[$key] = esc_url_raw($incoming);
+            } elseif (strpos($key, 'body') !== false || strpos($key, 'text') !== false || strpos($key, 'quote') !== false) {
+                $clean[$key] = sanitize_textarea_field($incoming);
+            } else {
+                $clean[$key] = sanitize_text_field($incoming);
+            }
+        }
+        return $clean;
     }
 
     public function add_meta_boxes() {
@@ -505,48 +534,248 @@ class SPB_Plugin {
         echo '</div>';
     }
 
+    public function render_home_settings_page() {
+        $home = $this->home_content();
+        echo '<div class="wrap spb-admin-page" dir="rtl"><h1>' . esc_html__('הגדרות עמוד הבית', 'school-publisher-shortcodes') . '</h1>';
+        echo '<p>' . esc_html__('כאן אפשר לערוך את הטקסטים והתמונות של השורטקוד [school_publisher_home]. אם משאירים את ברירות המחדל, העמוד ימשיך להיראות כמו שהוא עכשיו.', 'school-publisher-shortcodes') . '</p>';
+        echo '<form method="post" action="options.php">';
+        settings_fields('spb_home');
+
+        $this->render_home_settings_section(__('פתיח ראשי', 'school-publisher-shortcodes'), $home, array(
+            'brand' => __('שם מותג', 'school-publisher-shortcodes'),
+            'brand_subtitle' => __('שורת מותג קטנה', 'school-publisher-shortcodes'),
+            'hero_eyebrow' => __('כותרת קטנה', 'school-publisher-shortcodes'),
+            'hero_title' => __('כותרת ראשית', 'school-publisher-shortcodes'),
+            'hero_body' => __('טקסט פתיח', 'school-publisher-shortcodes'),
+            'hero_primary_cta' => __('כפתור ראשי', 'school-publisher-shortcodes'),
+            'hero_secondary_cta' => __('כפתור משני', 'school-publisher-shortcodes'),
+            'hero_image' => __('תמונת פתיח - URL', 'school-publisher-shortcodes'),
+            'floating_price_label' => __('כרטיס מחיר - כותרת', 'school-publisher-shortcodes'),
+            'floating_price_value' => __('כרטיס מחיר - מחיר', 'school-publisher-shortcodes'),
+            'floating_price_note' => __('כרטיס מחיר - הערה', 'school-publisher-shortcodes'),
+            'floating_book_title' => __('כרטיס ספר - כותרת', 'school-publisher-shortcodes'),
+            'floating_book_text' => __('כרטיס ספר - טקסט', 'school-publisher-shortcodes'),
+        ));
+
+        $this->render_home_settings_section(__('יתרונות ושלבי עבודה', 'school-publisher-shortcodes'), $home, array(
+            'feature_1_icon' => __('יתרון 1 - סימן', 'school-publisher-shortcodes'),
+            'feature_1_text' => __('יתרון 1 - טקסט', 'school-publisher-shortcodes'),
+            'feature_2_icon' => __('יתרון 2 - סימן', 'school-publisher-shortcodes'),
+            'feature_2_text' => __('יתרון 2 - טקסט', 'school-publisher-shortcodes'),
+            'feature_3_icon' => __('יתרון 3 - סימן', 'school-publisher-shortcodes'),
+            'feature_3_text' => __('יתרון 3 - טקסט', 'school-publisher-shortcodes'),
+            'feature_4_icon' => __('יתרון 4 - סימן', 'school-publisher-shortcodes'),
+            'feature_4_text' => __('יתרון 4 - טקסט', 'school-publisher-shortcodes'),
+            'steps_eyebrow' => __('שלבים - כותרת קטנה', 'school-publisher-shortcodes'),
+            'steps_title' => __('שלבים - כותרת', 'school-publisher-shortcodes'),
+            'step_1_title' => __('שלב 1 - כותרת', 'school-publisher-shortcodes'),
+            'step_1_body' => __('שלב 1 - טקסט', 'school-publisher-shortcodes'),
+            'step_2_title' => __('שלב 2 - כותרת', 'school-publisher-shortcodes'),
+            'step_2_body' => __('שלב 2 - טקסט', 'school-publisher-shortcodes'),
+            'step_3_title' => __('שלב 3 - כותרת', 'school-publisher-shortcodes'),
+            'step_3_body' => __('שלב 3 - טקסט', 'school-publisher-shortcodes'),
+            'step_4_title' => __('שלב 4 - כותרת', 'school-publisher-shortcodes'),
+            'step_4_body' => __('שלב 4 - טקסט', 'school-publisher-shortcodes'),
+        ));
+
+        $this->render_home_settings_section(__('מערכת, איכות והקדשה', 'school-publisher-shortcodes'), $home, array(
+            'system_eyebrow' => __('מערכת - כותרת קטנה', 'school-publisher-shortcodes'),
+            'system_title' => __('מערכת - כותרת', 'school-publisher-shortcodes'),
+            'system_body' => __('מערכת - טקסט', 'school-publisher-shortcodes'),
+            'system_bullet_1' => __('מערכת - נקודה 1', 'school-publisher-shortcodes'),
+            'system_bullet_2' => __('מערכת - נקודה 2', 'school-publisher-shortcodes'),
+            'system_bullet_3' => __('מערכת - נקודה 3', 'school-publisher-shortcodes'),
+            'system_bullet_4' => __('מערכת - נקודה 4', 'school-publisher-shortcodes'),
+            'quality_image' => __('תמונת איכות - URL', 'school-publisher-shortcodes'),
+            'quality_eyebrow' => __('איכות - כותרת קטנה', 'school-publisher-shortcodes'),
+            'quality_title' => __('איכות - כותרת', 'school-publisher-shortcodes'),
+            'quality_body' => __('איכות - טקסט', 'school-publisher-shortcodes'),
+            'quality_icon_1' => __('איכות - נקודה 1', 'school-publisher-shortcodes'),
+            'quality_icon_2' => __('איכות - נקודה 2', 'school-publisher-shortcodes'),
+            'quality_icon_3' => __('איכות - נקודה 3', 'school-publisher-shortcodes'),
+            'quality_icon_4' => __('איכות - נקודה 4', 'school-publisher-shortcodes'),
+            'dedication_eyebrow' => __('הקדשה - כותרת קטנה', 'school-publisher-shortcodes'),
+            'dedication_title' => __('הקדשה - כותרת', 'school-publisher-shortcodes'),
+            'dedication_1_title' => __('כרטיס 1 - כותרת', 'school-publisher-shortcodes'),
+            'dedication_1_body' => __('כרטיס 1 - טקסט', 'school-publisher-shortcodes'),
+            'dedication_2_title' => __('כרטיס 2 - כותרת', 'school-publisher-shortcodes'),
+            'dedication_2_body' => __('כרטיס 2 - טקסט', 'school-publisher-shortcodes'),
+            'dedication_3_title' => __('כרטיס 3 - כותרת', 'school-publisher-shortcodes'),
+            'dedication_3_body' => __('כרטיס 3 - טקסט', 'school-publisher-shortcodes'),
+            'dedication_4_title' => __('כרטיס 4 - כותרת', 'school-publisher-shortcodes'),
+            'dedication_4_body' => __('כרטיס 4 - טקסט', 'school-publisher-shortcodes'),
+        ));
+
+        $this->render_home_settings_section(__('תמחור, המלצות וקריאה לפעולה', 'school-publisher-shortcodes'), $home, array(
+            'pricing_eyebrow' => __('תמחור - כותרת קטנה', 'school-publisher-shortcodes'),
+            'pricing_title' => __('תמחור - כותרת', 'school-publisher-shortcodes'),
+            'pricing_body' => __('תמחור - טקסט', 'school-publisher-shortcodes'),
+            'testimonials_eyebrow' => __('המלצות - כותרת קטנה', 'school-publisher-shortcodes'),
+            'testimonials_title' => __('המלצות - כותרת', 'school-publisher-shortcodes'),
+            'testimonial_1_quote' => __('המלצה 1', 'school-publisher-shortcodes'),
+            'testimonial_1_name' => __('שם 1', 'school-publisher-shortcodes'),
+            'testimonial_1_role' => __('תפקיד 1', 'school-publisher-shortcodes'),
+            'testimonial_2_quote' => __('המלצה 2', 'school-publisher-shortcodes'),
+            'testimonial_2_name' => __('שם 2', 'school-publisher-shortcodes'),
+            'testimonial_2_role' => __('תפקיד 2', 'school-publisher-shortcodes'),
+            'testimonial_3_quote' => __('המלצה 3', 'school-publisher-shortcodes'),
+            'testimonial_3_name' => __('שם 3', 'school-publisher-shortcodes'),
+            'testimonial_3_role' => __('תפקיד 3', 'school-publisher-shortcodes'),
+            'cta_title' => __('סיום - כותרת', 'school-publisher-shortcodes'),
+            'cta_body' => __('סיום - טקסט', 'school-publisher-shortcodes'),
+            'cta_button' => __('סיום - כפתור', 'school-publisher-shortcodes'),
+        ));
+
+        submit_button(__('שמירת עמוד הבית', 'school-publisher-shortcodes'));
+        echo '</form></div>';
+    }
+
+    private function render_home_settings_section($title, $home, $fields) {
+        echo '<div class="spb-admin-panel"><h2>' . esc_html($title) . '</h2><table class="form-table" role="presentation"><tbody>';
+        foreach ($fields as $key => $label) {
+            $value = $home[$key] ?? '';
+            $is_long = strpos($key, 'body') !== false || strpos($key, 'quote') !== false;
+            echo '<tr><th scope="row"><label for="spb_home_' . esc_attr($key) . '">' . esc_html($label) . '</label></th><td>';
+            if ($is_long) {
+                echo '<textarea id="spb_home_' . esc_attr($key) . '" name="spb_home_content[' . esc_attr($key) . ']" rows="4" class="large-text">' . esc_textarea($value) . '</textarea>';
+            } else {
+                echo '<input id="spb_home_' . esc_attr($key) . '" type="text" name="spb_home_content[' . esc_attr($key) . ']" value="' . esc_attr($value) . '" class="regular-text">';
+            }
+            echo '</td></tr>';
+        }
+        echo '</tbody></table></div>';
+    }
+
+    private function home_content() {
+        return wp_parse_args((array) get_option('spb_home_content', array()), $this->home_content_defaults());
+    }
+
+    private function home_content_defaults() {
+        $default_image = SPB_PLUGIN_URL . 'assets/img/literature-hero.png';
+        return array(
+            'brand' => __('ספר שלי', 'school-publisher-shortcodes'),
+            'brand_subtitle' => __('בונים ספר ספרות', 'school-publisher-shortcodes'),
+            'hero_eyebrow' => __('בונים ספר ספרות', 'school-publisher-shortcodes'),
+            'hero_title' => __('בונים יחד את ספר הספרות שלכם', 'school-publisher-shortcodes'),
+            'hero_body' => __('מערכת מתקדמת, פשוטה ואינטואיטיבית לבניית ספרי ספרות לתלמידים. בוחרים שכבה, מחזות ויצירות מתוך מאגר מסודר לפי הנחיות משרד החינוך, מקבלים מחיר משוער וממשיכים לאישור אישי.', 'school-publisher-shortcodes'),
+            'hero_primary_cta' => __('התחילו לבנות את הספר שלכם', 'school-publisher-shortcodes'),
+            'hero_secondary_cta' => __('איך זה עובד', 'school-publisher-shortcodes'),
+            'hero_image' => $default_image,
+            'floating_price_label' => __('מחיר משוער', 'school-publisher-shortcodes'),
+            'floating_price_value' => '₪128.50',
+            'floating_price_note' => __('מתעדכן בזמן אמת', 'school-publisher-shortcodes'),
+            'floating_book_title' => __('הספר שלכם', 'school-publisher-shortcodes'),
+            'floating_book_text' => __('נבנה במיוחד בשבילכם', 'school-publisher-shortcodes'),
+            'feature_1_icon' => '₪',
+            'feature_1_text' => __('חסכון בזמן', 'school-publisher-shortcodes'),
+            'feature_2_icon' => '◎',
+            'feature_2_text' => __('מחיר הוגן', 'school-publisher-shortcodes'),
+            'feature_3_icon' => '☷',
+            'feature_3_text' => __('התאמה מלאה', 'school-publisher-shortcodes'),
+            'feature_4_icon' => '▦',
+            'feature_4_text' => __('מאגר עשיר', 'school-publisher-shortcodes'),
+            'steps_eyebrow' => __('איך זה עובד?', 'school-publisher-shortcodes'),
+            'steps_title' => __('4 שלבים פשוטים לספר המושלם', 'school-publisher-shortcodes'),
+            'step_1_title' => __('בחרו כיתה', 'school-publisher-shortcodes'),
+            'step_1_body' => __('מתחילים משכבה רלוונטית ומקבלים מאגר מותאם.', 'school-publisher-shortcodes'),
+            'step_2_title' => __('בחרו יצירות ומחזות', 'school-publisher-shortcodes'),
+            'step_2_body' => __('מסמנים יצירות חובה, בחירה ומחזות מתוך מאגר מאורגן.', 'school-publisher-shortcodes'),
+            'step_3_title' => __('צפו בסיכום ובמחיר', 'school-publisher-shortcodes'),
+            'step_3_body' => __('עמודים, כריכה ומחיר משוער מתעדכנים מיד.', 'school-publisher-shortcodes'),
+            'step_4_title' => __('הדפסה והזמנה', 'school-publisher-shortcodes'),
+            'step_4_body' => __('אחרי אישור אישי מקבלים קישור לרכישת התלמידים.', 'school-publisher-shortcodes'),
+            'system_eyebrow' => __('חוויה דיגיטלית מתקדמת', 'school-publisher-shortcodes'),
+            'system_title' => __('ממשק שקט, מהיר ואינטואיטיבי', 'school-publisher-shortcodes'),
+            'system_body' => __('כל מה שצריך נמצא במקום אחד: חיפוש וסינון, תצוגה ברורה של התכנים, סיכום בחירה ומחיר מחושב. הרכזת רואה בכל רגע מה נבחר ומה השלב הבא.', 'school-publisher-shortcodes'),
+            'system_bullet_1' => __('חיפוש וסינון מתקדם', 'school-publisher-shortcodes'),
+            'system_bullet_2' => __('תצוגה מדויקת של התכנים', 'school-publisher-shortcodes'),
+            'system_bullet_3' => __('סיכום בזמן אמת', 'school-publisher-shortcodes'),
+            'system_bullet_4' => __('שמירה וחזרה לספר משנה שעברה', 'school-publisher-shortcodes'),
+            'quality_image' => $default_image,
+            'quality_eyebrow' => __('איכות ללא פשרות', 'school-publisher-shortcodes'),
+            'quality_title' => __('כל התכנים נבחרים בקפידה ומותאמים לבית הספר', 'school-publisher-shortcodes'),
+            'quality_body' => __('הספר השנתי מחבר בין דרישות משרד החינוך לבין הבחירות הפדגוגיות של הצוות. התלמידים מקבלים ספר אחד מסודר, איכותי ונוח לשימוש לאורך השנה, עם הדפסה בהתאמה אישית לבית הספר וכריכה קשה שמרגישה כמו ספר אמיתי שנשאר.', 'school-publisher-shortcodes'),
+            'quality_icon_1' => __('מותאם לרמת הכיתה', 'school-publisher-shortcodes'),
+            'quality_icon_2' => __('מאגד יצירות ומחזות', 'school-publisher-shortcodes'),
+            'quality_icon_3' => __('כריכה קשה והדפסה איכותית', 'school-publisher-shortcodes'),
+            'quality_icon_4' => __('עמוד הקדשה לשנת הלימודים', 'school-publisher-shortcodes'),
+            'dedication_eyebrow' => __('ספר שנראה ומרגיש אישי', 'school-publisher-shortcodes'),
+            'dedication_title' => __('לא רק קובץ טקסטים, אלא ספר בית ספרי של השנה', 'school-publisher-shortcodes'),
+            'dedication_1_title' => __('כריכה קשה', 'school-publisher-shortcodes'),
+            'dedication_1_body' => __('ספר עמיד, מכובד ונוח לשימוש יומיומי בכיתה ובבית.', 'school-publisher-shortcodes'),
+            'dedication_2_title' => __('הדפסה בהתאמה אישית', 'school-publisher-shortcodes'),
+            'dedication_2_body' => __('שם בית הספר, שכבה, שנת לימודים ותוכן שנבחר במיוחד על ידי הצוות.', 'school-publisher-shortcodes'),
+            'dedication_3_title' => __('עמוד הקדשה פותח', 'school-publisher-shortcodes'),
+            'dedication_3_body' => __('אפשרות להקדשה מאת רכזת הספרות, מנהל/ת בית הספר או צוות השכבה.', 'school-publisher-shortcodes'),
+            'dedication_4_title' => __('מוכן לחלוקה', 'school-publisher-shortcodes'),
+            'dedication_4_body' => __('הזמנות התלמידים מרוכזות, והספרים מגיעים לבית הספר לחלוקה מסודרת.', 'school-publisher-shortcodes'),
+            'pricing_eyebrow' => __('מחיר הוגן ושקוף', 'school-publisher-shortcodes'),
+            'pricing_title' => __('המחיר מחושב לפי מבנה הספר בפועל', 'school-publisher-shortcodes'),
+            'pricing_body' => __('מחיר בסיס, טווח עמודים ללא שינוי, תוספת לפי עמוד, כריכה ומחזות פרטניים. הכל מחושב אוטומטית כדי לקבל החלטה בלי ניחושים.', 'school-publisher-shortcodes'),
+            'testimonials_eyebrow' => __('מה רכזי ספרות אומרים עלינו', 'school-publisher-shortcodes'),
+            'testimonials_title' => __('פחות התעסקות, יותר ספרות', 'school-publisher-shortcodes'),
+            'testimonial_1_quote' => __('מאגר עשיר, ממשק נוח ומחיר הוגן. כל מה שצריך כדי לבנות ספר ספרות שלם.', 'school-publisher-shortcodes'),
+            'testimonial_1_name' => __('מיכל ש.', 'school-publisher-shortcodes'),
+            'testimonial_1_role' => __('רכזת ספרות, חיפה', 'school-publisher-shortcodes'),
+            'testimonial_2_quote' => __('במקום לרדוף אחרי קבצים ורשימות, ראינו מיד את הבחירה, העמודים והמחיר.', 'school-publisher-shortcodes'),
+            'testimonial_2_name' => __('אמיר מ.', 'school-publisher-shortcodes'),
+            'testimonial_2_role' => __('מורה לספרות, ירושלים', 'school-publisher-shortcodes'),
+            'testimonial_3_quote' => __('המערכת חסכה לנו המון זמן ונתנה לתלמידים תוצר מסודר ונעים לשימוש.', 'school-publisher-shortcodes'),
+            'testimonial_3_name' => __('רונית ל.', 'school-publisher-shortcodes'),
+            'testimonial_3_role' => __('רכזת שכבה, תל אביב', 'school-publisher-shortcodes'),
+            'cta_title' => __('מוכנים להתחיל?', 'school-publisher-shortcodes'),
+            'cta_body' => __('הצטרפו למאות רכזות ורכזים שבונים ספר ספרות שנתי בצורה פשוטה, מדויקת ומשתלמת.', 'school-publisher-shortcodes'),
+            'cta_button' => __('התחברו עכשיו', 'school-publisher-shortcodes'),
+        );
+    }
+
     public function render_sales_home() {
         wp_enqueue_style('spb-frontend');
+        $home = $this->home_content();
+        $text = function ($key) use ($home) {
+            return $home[$key] ?? '';
+        };
+        $image_style = '--spb-home-hero-image:url(' . esc_url($text('hero_image')) . ');--spb-home-quality-image:url(' . esc_url($text('quality_image')) . ');';
 
         ob_start();
         ?>
-        <div class="spb-sales" dir="rtl">
+        <div class="spb-sales" dir="rtl" style="<?php echo esc_attr($image_style); ?>">
             <section class="spb-sales-hero">
                 <div class="spb-sales-nav">
-                    <strong><?php esc_html_e('ספר שלי', 'school-publisher-shortcodes'); ?></strong>
+                    <strong data-spb-subtitle="<?php echo esc_attr($text('brand_subtitle')); ?>"><?php echo esc_html($text('brand')); ?></strong>
                     <nav aria-label="<?php esc_attr_e('ניווט עמוד הבית', 'school-publisher-shortcodes'); ?>">
                         <a href="#spb-sales-home"><?php esc_html_e('דף הבית', 'school-publisher-shortcodes'); ?></a>
                         <a href="#spb-sales-system"><?php esc_html_e('המערכת', 'school-publisher-shortcodes'); ?></a>
                         <a href="#spb-sales-value"><?php esc_html_e('למה זה עובד', 'school-publisher-shortcodes'); ?></a>
                         <a href="#spb-sales-process"><?php esc_html_e('תהליך', 'school-publisher-shortcodes'); ?></a>
                     </nav>
-                    <a class="spb-sales-contact" href="#spb-sales-process"><?php esc_html_e('התחברו עכשיו', 'school-publisher-shortcodes'); ?></a>
+                    <a class="spb-sales-contact" href="#spb-sales-process"><?php echo esc_html($text('cta_button')); ?></a>
                 </div>
                 <div class="spb-sales-hero__copy" id="spb-sales-home">
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('בונים ספר ספרות', 'school-publisher-shortcodes'); ?></p>
-                    <h1><?php esc_html_e('בונים יחד את ספר הספרות שלכם', 'school-publisher-shortcodes'); ?></h1>
-                    <p><?php esc_html_e('מערכת מתקדמת, פשוטה ואינטואיטיבית לבניית ספרי ספרות לתלמידים. בוחרים שכבה, מחזות ויצירות מתוך מאגר מסודר לפי הנחיות משרד החינוך, מקבלים מחיר משוער וממשיכים לאישור אישי.', 'school-publisher-shortcodes'); ?></p>
+                    <p class="spb-sales-eyebrow"><?php echo esc_html($text('hero_eyebrow')); ?></p>
+                    <h1><?php echo esc_html($text('hero_title')); ?></h1>
+                    <p><?php echo esc_html($text('hero_body')); ?></p>
                     <div class="spb-sales-actions">
-                        <a href="#spb-sales-system"><?php esc_html_e('התחילו לבנות את הספר שלכם', 'school-publisher-shortcodes'); ?></a>
-                        <a href="#spb-sales-process"><?php esc_html_e('איך זה עובד', 'school-publisher-shortcodes'); ?></a>
+                        <a href="#spb-sales-system"><?php echo esc_html($text('hero_primary_cta')); ?></a>
+                        <a href="#spb-sales-process"><?php echo esc_html($text('hero_secondary_cta')); ?></a>
                     </div>
                     <div class="spb-sales-hero-features">
-                        <span><b>₪</b><?php esc_html_e('חסכון בזמן', 'school-publisher-shortcodes'); ?></span>
-                        <span><b>◎</b><?php esc_html_e('מחיר הוגן', 'school-publisher-shortcodes'); ?></span>
-                        <span><b>☷</b><?php esc_html_e('התאמה מלאה', 'school-publisher-shortcodes'); ?></span>
-                        <span><b>▦</b><?php esc_html_e('מאגר עשיר', 'school-publisher-shortcodes'); ?></span>
+                        <span><b><?php echo esc_html($text('feature_1_icon')); ?></b><?php echo esc_html($text('feature_1_text')); ?></span>
+                        <span><b><?php echo esc_html($text('feature_2_icon')); ?></b><?php echo esc_html($text('feature_2_text')); ?></span>
+                        <span><b><?php echo esc_html($text('feature_3_icon')); ?></b><?php echo esc_html($text('feature_3_text')); ?></span>
+                        <span><b><?php echo esc_html($text('feature_4_icon')); ?></b><?php echo esc_html($text('feature_4_text')); ?></span>
                     </div>
                 </div>
                 <div class="spb-sales-visual" aria-label="<?php esc_attr_e('רכזת ספרות בונה ספר', 'school-publisher-shortcodes'); ?>">
                     <div class="spb-sales-photo"></div>
                     <div class="spb-sales-floating spb-sales-floating--price">
-                        <span><?php esc_html_e('מחיר משוער', 'school-publisher-shortcodes'); ?></span>
-                        <strong>₪128.50</strong>
-                        <small><?php esc_html_e('מתעדכן בזמן אמת', 'school-publisher-shortcodes'); ?></small>
+                        <span><?php echo esc_html($text('floating_price_label')); ?></span>
+                        <strong><?php echo esc_html($text('floating_price_value')); ?></strong>
+                        <small><?php echo esc_html($text('floating_price_note')); ?></small>
                     </div>
                     <div class="spb-sales-floating spb-sales-floating--book">
-                        <strong><?php esc_html_e('הספר שלכם', 'school-publisher-shortcodes'); ?></strong>
-                        <span><?php esc_html_e('נבנה במיוחד בשבילכם', 'school-publisher-shortcodes'); ?></span>
+                        <strong><?php echo esc_html($text('floating_book_title')); ?></strong>
+                        <span><?php echo esc_html($text('floating_book_text')); ?></span>
                     </div>
                     <div class="spb-sales-mini-stack">
                         <span><?php esc_html_e('מחזות', 'school-publisher-shortcodes'); ?></span>
@@ -558,27 +787,27 @@ class SPB_Plugin {
 
             <section class="spb-sales-steps" id="spb-sales-process">
                 <div class="spb-sales-heading spb-sales-heading--center">
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('איך זה עובד?', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('4 שלבים פשוטים לספר המושלם', 'school-publisher-shortcodes'); ?></h2>
+                    <p class="spb-sales-eyebrow"><?php echo esc_html($text('steps_eyebrow')); ?></p>
+                    <h2><?php echo esc_html($text('steps_title')); ?></h2>
                 </div>
                 <ol>
-                    <li><span>1</span><strong><?php esc_html_e('בחרו כיתה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('מתחילים משכבה רלוונטית ומקבלים מאגר מותאם.', 'school-publisher-shortcodes'); ?></p></li>
-                    <li><span>2</span><strong><?php esc_html_e('בחרו יצירות ומחזות', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('מסמנים יצירות חובה, בחירה ומחזות מתוך מאגר מאורגן.', 'school-publisher-shortcodes'); ?></p></li>
-                    <li><span>3</span><strong><?php esc_html_e('צפו בסיכום ובמחיר', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('עמודים, כריכה ומחיר משוער מתעדכנים מיד.', 'school-publisher-shortcodes'); ?></p></li>
-                    <li><span>4</span><strong><?php esc_html_e('הדפסה והזמנה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('אחרי אישור אישי מקבלים קישור לרכישת התלמידים.', 'school-publisher-shortcodes'); ?></p></li>
+                    <li><span>1</span><strong><?php echo esc_html($text('step_1_title')); ?></strong><p><?php echo esc_html($text('step_1_body')); ?></p></li>
+                    <li><span>2</span><strong><?php echo esc_html($text('step_2_title')); ?></strong><p><?php echo esc_html($text('step_2_body')); ?></p></li>
+                    <li><span>3</span><strong><?php echo esc_html($text('step_3_title')); ?></strong><p><?php echo esc_html($text('step_3_body')); ?></p></li>
+                    <li><span>4</span><strong><?php echo esc_html($text('step_4_title')); ?></strong><p><?php echo esc_html($text('step_4_body')); ?></p></li>
                 </ol>
             </section>
 
             <section class="spb-sales-system" id="spb-sales-system">
                 <div class="spb-sales-heading">
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('חוויה דיגיטלית מתקדמת', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('ממשק שקט, מהיר ואינטואיטיבי', 'school-publisher-shortcodes'); ?></h2>
-                    <p><?php esc_html_e('כל מה שצריך נמצא במקום אחד: חיפוש וסינון, תצוגה ברורה של התכנים, סיכום בחירה ומחיר מחושב. הרכזת רואה בכל רגע מה נבחר ומה השלב הבא.', 'school-publisher-shortcodes'); ?></p>
+                    <p class="spb-sales-eyebrow"><?php echo esc_html($text('system_eyebrow')); ?></p>
+                    <h2><?php echo esc_html($text('system_title')); ?></h2>
+                    <p><?php echo esc_html($text('system_body')); ?></p>
                     <ul>
-                        <li><?php esc_html_e('חיפוש וסינון מתקדם', 'school-publisher-shortcodes'); ?></li>
-                        <li><?php esc_html_e('תצוגה מדויקת של התכנים', 'school-publisher-shortcodes'); ?></li>
-                        <li><?php esc_html_e('סיכום בזמן אמת', 'school-publisher-shortcodes'); ?></li>
-                        <li><?php esc_html_e('שמירה וחזרה לספר משנה שעברה', 'school-publisher-shortcodes'); ?></li>
+                        <li><?php echo esc_html($text('system_bullet_1')); ?></li>
+                        <li><?php echo esc_html($text('system_bullet_2')); ?></li>
+                        <li><?php echo esc_html($text('system_bullet_3')); ?></li>
+                        <li><?php echo esc_html($text('system_bullet_4')); ?></li>
                     </ul>
                 </div>
                 <div class="spb-sales-interface">
@@ -610,36 +839,36 @@ class SPB_Plugin {
             <section class="spb-sales-quality" id="spb-sales-value">
                 <div class="spb-sales-quality__image"></div>
                 <div class="spb-sales-heading">
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('איכות ללא פשרות', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('כל התכנים נבחרים בקפידה ומותאמים לבית הספר', 'school-publisher-shortcodes'); ?></h2>
-                    <p><?php esc_html_e('הספר השנתי מחבר בין דרישות משרד החינוך לבין הבחירות הפדגוגיות של הצוות. התלמידים מקבלים ספר אחד מסודר, איכותי ונוח לשימוש לאורך השנה, עם הדפסה בהתאמה אישית לבית הספר וכריכה קשה שמרגישה כמו ספר אמיתי שנשאר.', 'school-publisher-shortcodes'); ?></p>
+                    <p class="spb-sales-eyebrow"><?php echo esc_html($text('quality_eyebrow')); ?></p>
+                    <h2><?php echo esc_html($text('quality_title')); ?></h2>
+                    <p><?php echo esc_html($text('quality_body')); ?></p>
                     <div class="spb-sales-quality-icons">
-                        <span><?php esc_html_e('מותאם לרמת הכיתה', 'school-publisher-shortcodes'); ?></span>
-                        <span><?php esc_html_e('מאגד יצירות ומחזות', 'school-publisher-shortcodes'); ?></span>
-                        <span><?php esc_html_e('כריכה קשה והדפסה איכותית', 'school-publisher-shortcodes'); ?></span>
-                        <span><?php esc_html_e('עמוד הקדשה לשנת הלימודים', 'school-publisher-shortcodes'); ?></span>
+                        <span><?php echo esc_html($text('quality_icon_1')); ?></span>
+                        <span><?php echo esc_html($text('quality_icon_2')); ?></span>
+                        <span><?php echo esc_html($text('quality_icon_3')); ?></span>
+                        <span><?php echo esc_html($text('quality_icon_4')); ?></span>
                     </div>
                 </div>
             </section>
 
             <section class="spb-sales-dedication">
                 <div>
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('ספר שנראה ומרגיש אישי', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('לא רק קובץ טקסטים, אלא ספר בית ספרי של השנה', 'school-publisher-shortcodes'); ?></h2>
+                    <p class="spb-sales-eyebrow"><?php echo esc_html($text('dedication_eyebrow')); ?></p>
+                    <h2><?php echo esc_html($text('dedication_title')); ?></h2>
                 </div>
                 <div class="spb-sales-dedication__grid">
-                    <article><span>01</span><strong><?php esc_html_e('כריכה קשה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('ספר עמיד, מכובד ונוח לשימוש יומיומי בכיתה ובבית.', 'school-publisher-shortcodes'); ?></p></article>
-                    <article><span>02</span><strong><?php esc_html_e('הדפסה בהתאמה אישית', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('שם בית הספר, שכבה, שנת לימודים ותוכן שנבחר במיוחד על ידי הצוות.', 'school-publisher-shortcodes'); ?></p></article>
-                    <article><span>03</span><strong><?php esc_html_e('עמוד הקדשה פותח', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('אפשרות להקדשה מאת רכזת הספרות, מנהל/ת בית הספר או צוות השכבה.', 'school-publisher-shortcodes'); ?></p></article>
-                    <article><span>04</span><strong><?php esc_html_e('מוכן לחלוקה', 'school-publisher-shortcodes'); ?></strong><p><?php esc_html_e('הזמנות התלמידים מרוכזות, והספרים מגיעים לבית הספר לחלוקה מסודרת.', 'school-publisher-shortcodes'); ?></p></article>
+                    <article><span>01</span><strong><?php echo esc_html($text('dedication_1_title')); ?></strong><p><?php echo esc_html($text('dedication_1_body')); ?></p></article>
+                    <article><span>02</span><strong><?php echo esc_html($text('dedication_2_title')); ?></strong><p><?php echo esc_html($text('dedication_2_body')); ?></p></article>
+                    <article><span>03</span><strong><?php echo esc_html($text('dedication_3_title')); ?></strong><p><?php echo esc_html($text('dedication_3_body')); ?></p></article>
+                    <article><span>04</span><strong><?php echo esc_html($text('dedication_4_title')); ?></strong><p><?php echo esc_html($text('dedication_4_body')); ?></p></article>
                 </div>
             </section>
 
             <section class="spb-sales-pricing">
                 <div>
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('מחיר הוגן ושקוף', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('המחיר מחושב לפי מבנה הספר בפועל', 'school-publisher-shortcodes'); ?></h2>
-                    <p><?php esc_html_e('מחיר בסיס, טווח עמודים ללא שינוי, תוספת לפי עמוד, כריכה ומחזות פרטניים. הכל מחושב אוטומטית כדי לקבל החלטה בלי ניחושים.', 'school-publisher-shortcodes'); ?></p>
+                    <p class="spb-sales-eyebrow"><?php echo esc_html($text('pricing_eyebrow')); ?></p>
+                    <h2><?php echo esc_html($text('pricing_title')); ?></h2>
+                    <p><?php echo esc_html($text('pricing_body')); ?></p>
                 </div>
                 <div class="spb-sales-formula">
                     <span><?php esc_html_e('מחיר התחלתי', 'school-publisher-shortcodes'); ?></span>
@@ -653,20 +882,20 @@ class SPB_Plugin {
 
             <section class="spb-sales-testimonials">
                 <div class="spb-sales-heading spb-sales-heading--center">
-                    <p class="spb-sales-eyebrow"><?php esc_html_e('מה רכזי ספרות אומרים עלינו', 'school-publisher-shortcodes'); ?></p>
-                    <h2><?php esc_html_e('פחות התעסקות, יותר ספרות', 'school-publisher-shortcodes'); ?></h2>
+                    <p class="spb-sales-eyebrow"><?php echo esc_html($text('testimonials_eyebrow')); ?></p>
+                    <h2><?php echo esc_html($text('testimonials_title')); ?></h2>
                 </div>
                 <div class="spb-sales-grid">
-                    <article><p><?php esc_html_e('מאגר עשיר, ממשק נוח ומחיר הוגן. כל מה שצריך כדי לבנות ספר ספרות שלם.', 'school-publisher-shortcodes'); ?></p><strong><?php esc_html_e('מיכל ש.', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('רכזת ספרות, חיפה', 'school-publisher-shortcodes'); ?></span></article>
-                    <article><p><?php esc_html_e('במקום לרדוף אחרי קבצים ורשימות, ראינו מיד את הבחירה, העמודים והמחיר.', 'school-publisher-shortcodes'); ?></p><strong><?php esc_html_e('אמיר מ.', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('מורה לספרות, ירושלים', 'school-publisher-shortcodes'); ?></span></article>
-                    <article><p><?php esc_html_e('המערכת חסכה לנו המון זמן ונתנה לתלמידים תוצר מסודר ונעים לשימוש.', 'school-publisher-shortcodes'); ?></p><strong><?php esc_html_e('רונית ל.', 'school-publisher-shortcodes'); ?></strong><span><?php esc_html_e('רכזת שכבה, תל אביב', 'school-publisher-shortcodes'); ?></span></article>
+                    <article><p><?php echo esc_html($text('testimonial_1_quote')); ?></p><strong><?php echo esc_html($text('testimonial_1_name')); ?></strong><span><?php echo esc_html($text('testimonial_1_role')); ?></span></article>
+                    <article><p><?php echo esc_html($text('testimonial_2_quote')); ?></p><strong><?php echo esc_html($text('testimonial_2_name')); ?></strong><span><?php echo esc_html($text('testimonial_2_role')); ?></span></article>
+                    <article><p><?php echo esc_html($text('testimonial_3_quote')); ?></p><strong><?php echo esc_html($text('testimonial_3_name')); ?></strong><span><?php echo esc_html($text('testimonial_3_role')); ?></span></article>
                 </div>
             </section>
 
             <section class="spb-sales-cta">
-                <h2><?php esc_html_e('מוכנים להתחיל?', 'school-publisher-shortcodes'); ?></h2>
-                <p><?php esc_html_e('הצטרפו למאות רכזות ורכזים שבונים ספר ספרות שנתי בצורה פשוטה, מדויקת ומשתלמת.', 'school-publisher-shortcodes'); ?></p>
-                <a href="#spb-sales-home"><?php esc_html_e('התחברו עכשיו', 'school-publisher-shortcodes'); ?></a>
+                <h2><?php echo esc_html($text('cta_title')); ?></h2>
+                <p><?php echo esc_html($text('cta_body')); ?></p>
+                <a href="#spb-sales-home"><?php echo esc_html($text('cta_button')); ?></a>
             </section>
         </div>
         <?php

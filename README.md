@@ -9,6 +9,8 @@ WordPress plugin for building school literature books from a managed catalog of 
 - `[school_publisher_home]` - marketing homepage for literature coordinators.
 - `[school_literature_activities]` - coming-soon activities page for Antigone learning games and quests.
 
+The homepage shortcode content can be edited in **בונה ספרים → עמוד הבית**. Default values match the built-in landing page.
+
 ## Admin Workflow
 
 1. Open **בונה ספרים** in the WordPress admin.

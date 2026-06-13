@@ -39,6 +39,7 @@ class SPB_Plugin {
         add_filter('manage_spb_book_request_posts_columns', array($this, 'request_columns'));
         add_action('manage_spb_book_request_posts_custom_column', array($this, 'render_request_column'), 10, 2);
         add_shortcode('school_publisher_home', array($this, 'render_sales_home'));
+        add_shortcode('school_publisher_amir', array($this, 'render_amir_page'));
         add_shortcode('school_literature_activities', array($this, 'render_activities_page'));
         add_shortcode('school_book_builder', array($this, 'render_book_builder'));
         add_shortcode('school_book_request', array($this, 'render_book_request'));
@@ -494,6 +495,7 @@ class SPB_Plugin {
         echo '<div class="spb-admin-panel"><h2>' . esc_html__('התחלה מהירה', 'school-publisher-shortcodes') . '</h2>';
         echo '<ol><li>' . esc_html__('מוסיפים כיתות ומחברים.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מעלים יצירות ומחזות ידנית או דרך מסך הייבוא.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('מסמנים פריטים כפעילים כדי שיופיעו לבתי הספר.', 'school-publisher-shortcodes') . '</li><li>' . esc_html__('יוצרים עמוד באתר עם השורטקוד של הבונה.', 'school-publisher-shortcodes') . '</li></ol>';
         echo '<p><strong>' . esc_html__('שורטקוד עמוד הבית השיווקי:', 'school-publisher-shortcodes') . '</strong> <code>[school_publisher_home]</code></p>';
+        echo '<p><strong>' . esc_html__('שורטקוד עמוד ייעודי לאמיר:', 'school-publisher-shortcodes') . '</strong> <code>[school_publisher_amir]</code></p>';
         echo '<p><strong>' . esc_html__('שורטקוד עמוד פעילויות:', 'school-publisher-shortcodes') . '</strong> <code>[school_literature_activities]</code></p>';
         echo '<p><strong>' . esc_html__('שורטקוד בונה הספר:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_builder]</code></p>';
         echo '<p><strong>' . esc_html__('שורטקוד להצגת בקשה ציבורית:', 'school-publisher-shortcodes') . '</strong> <code>[school_book_request]</code></p></div>';
@@ -948,6 +950,90 @@ class SPB_Plugin {
                     <h3><?php esc_html_e('חידות לקראת שיעור', 'school-publisher-shortcodes'); ?></h3>
                     <p><?php esc_html_e('פעילויות קצרות לפתיחת שיעור, סיכום פרק או הכנה לדיון כיתתי.', 'school-publisher-shortcodes'); ?></p>
                 </article>
+            </section>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    public function render_amir_page() {
+        wp_enqueue_style('spb-frontend');
+
+        ob_start();
+        ?>
+        <div class="spb-amir" dir="rtl">
+            <section class="spb-amir-hero">
+                <div class="spb-amir-hero__copy">
+                    <p class="spb-amir-kicker"><?php esc_html_e('אמיר חסון · ספרות, חינוך ויזמות', 'school-publisher-shortcodes'); ?></p>
+                    <h1><?php esc_html_e('אמיר, בוא להפוך מערכת חכמה לבניית ספרי ספרות למוצר חינוכי גדול', 'school-publisher-shortcodes'); ?></h1>
+                    <p><?php esc_html_e('יש כאן הזדמנות לקנות, להשקיע או להיכנס כשותף אסטרטגי במערכת שמחברת בין הוצאה לאור, בתי ספר, רכזי ספרות ותלמידים. לא עוד רשימות מפוזרות וקבצים, אלא פלטפורמה שמייצרת ספר בית ספרי אמיתי, מותאם, מודפס ומוכן להפצה.', 'school-publisher-shortcodes'); ?></p>
+                    <div class="spb-amir-actions">
+                        <a href="#spb-amir-offer"><?php esc_html_e('לראות את ההזדמנות', 'school-publisher-shortcodes'); ?></a>
+                        <a href="#spb-amir-call"><?php esc_html_e('נקבע שיחה', 'school-publisher-shortcodes'); ?></a>
+                    </div>
+                </div>
+                <div class="spb-amir-hero__visual" aria-label="<?php esc_attr_e('הזדמנות השקעה במערכת ספרות לבתי ספר', 'school-publisher-shortcodes'); ?>">
+                    <div class="spb-amir-book">
+                        <span><?php esc_html_e('School Literature OS', 'school-publisher-shortcodes'); ?></span>
+                        <strong><?php esc_html_e('ספרות שמגיעה לתלמידים כמו מוצר', 'school-publisher-shortcodes'); ?></strong>
+                    </div>
+                    <div class="spb-amir-metric spb-amir-metric--schools"><b><?php esc_html_e('בתי ספר', 'school-publisher-shortcodes'); ?></b><span><?php esc_html_e('שוק חוזר בכל שנה', 'school-publisher-shortcodes'); ?></span></div>
+                    <div class="spb-amir-metric spb-amir-metric--books"><b><?php esc_html_e('ספר מודפס', 'school-publisher-shortcodes'); ?></b><span><?php esc_html_e('ערך מוחשי לתלמיד', 'school-publisher-shortcodes'); ?></span></div>
+                </div>
+            </section>
+
+            <section class="spb-amir-section spb-amir-split" id="spb-amir-offer">
+                <div>
+                    <p class="spb-amir-kicker"><?php esc_html_e('למה דווקא אתה', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('כי זו לא רק טכנולוגיה. זו הבנה של ספרות, מוסדות חינוך והפצה.', 'school-publisher-shortcodes'); ?></h2>
+                </div>
+                <div class="spb-amir-copy">
+                    <p><?php esc_html_e('אמיר, כיזם בתחום הספרות והחינוך אתה מבין שהשוק לא מחפש עוד מערכת ניהול. הוא מחפש פתרון שמוריד עומס מהרכזות, נותן לתלמידים תוצר איכותי, ושומר על החיבור לתוכן, למשרד החינוך ולחוויה של ספר אמיתי.', 'school-publisher-shortcodes'); ?></p>
+                    <p><?php esc_html_e('המערכת הזו כבר נבנית סביב נקודת כאב ברורה: כל בית ספר צריך לבחור, לארגן, לאשר, להדפיס ולהפיץ חומרי ספרות. מי שיפתור את זה נכון יכול להפוך את זה למוצר חוזר, עם ערך פדגוגי ומסחרי.', 'school-publisher-shortcodes'); ?></p>
+                </div>
+            </section>
+
+            <section class="spb-amir-grid">
+                <article><span>01</span><h3><?php esc_html_e('מוצר לבתי ספר, לא רק אתר', 'school-publisher-shortcodes'); ?></h3><p><?php esc_html_e('רכזת בונה ספר לפי שכבה, מחזות, יצירות והנחיות. המערכת מחזירה מחיר, עמודים וסיכום מקצועי.', 'school-publisher-shortcodes'); ?></p></article>
+                <article><span>02</span><h3><?php esc_html_e('מודל הכנסות טבעי', 'school-publisher-shortcodes'); ?></h3><p><?php esc_html_e('כל ספר שנבנה הופך לקישור רכישה לתלמידים. ההכנסה מגיעה מהדפסה, הפצה, כריכה ושירות לבתי הספר.', 'school-publisher-shortcodes'); ?></p></article>
+                <article><span>03</span><h3><?php esc_html_e('חוזר בכל שנת לימודים', 'school-publisher-shortcodes'); ?></h3><p><?php esc_html_e('בתי ספר חוזרים כל שנה עם שכבות חדשות, התאמות קטנות, יצירות אחרות ומספר תלמידים משתנה.', 'school-publisher-shortcodes'); ?></p></article>
+                <article><span>04</span><h3><?php esc_html_e('מקום להתרחבות', 'school-publisher-shortcodes'); ?></h3><p><?php esc_html_e('בהמשך אפשר להוסיף פעילויות, משחקים, קווסטים ספרותיים, הכנה לשיעור ודוחות למורים.', 'school-publisher-shortcodes'); ?></p></article>
+            </section>
+
+            <section class="spb-amir-section spb-amir-product">
+                <div class="spb-amir-product__panel">
+                    <p class="spb-amir-kicker"><?php esc_html_e('מה כבר יש במערכת', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('תשתית מוצרית שמחברת תוכן, בחירה, תמחור ואישור', 'school-publisher-shortcodes'); ?></h2>
+                    <ul>
+                        <li><?php esc_html_e('מאגר יצירות, מחברים, כיתות, קטגוריות ומחזות.', 'school-publisher-shortcodes'); ?></li>
+                        <li><?php esc_html_e('בונה ספר לרכזות עם סיכום עמודים ומחיר חי.', 'school-publisher-shortcodes'); ?></li>
+                        <li><?php esc_html_e('הנחיות משרד החינוך שמלוות את הבחירה בוי/איקס.', 'school-publisher-shortcodes'); ?></li>
+                        <li><?php esc_html_e('שמירת ספרים, חזרה לספר משנה שעברה ואישור ידני לפני פרסום.', 'school-publisher-shortcodes'); ?></li>
+                        <li><?php esc_html_e('עמודי שיווק ופעילויות עתידיות שמרחיבים את המוצר מעבר להדפסה.', 'school-publisher-shortcodes'); ?></li>
+                    </ul>
+                </div>
+                <div class="spb-amir-product__note">
+                    <strong><?php esc_html_e('החזון', 'school-publisher-shortcodes'); ?></strong>
+                    <p><?php esc_html_e('להפוך את ספר הספרות הבית ספרי ממטלה לוגיסטית למוצר פדגוגי, מסחרי וחווייתי. מערכת אחת לבחירה, אישור, רכישה, הדפסה, משלוח ובהמשך גם למידה פעילה סביב היצירות.', 'school-publisher-shortcodes'); ?></p>
+                </div>
+            </section>
+
+            <section class="spb-amir-invest">
+                <div>
+                    <p class="spb-amir-kicker"><?php esc_html_e('הצעה לשיחה', 'school-publisher-shortcodes'); ?></p>
+                    <h2><?php esc_html_e('בוא נבדוק אם נכון שתקנה את המערכת, תשקיע בה או תיכנס כשותף לצמיחה.', 'school-publisher-shortcodes'); ?></h2>
+                </div>
+                <div class="spb-amir-invest__cards">
+                    <div><b><?php esc_html_e('רכישה', 'school-publisher-shortcodes'); ?></b><span><?php esc_html_e('לקחת בעלות על התשתית ולהוביל אותה לשוק.', 'school-publisher-shortcodes'); ?></span></div>
+                    <div><b><?php esc_html_e('השקעה', 'school-publisher-shortcodes'); ?></b><span><?php esc_html_e('להכניס הון, קשרים וחשיבה עסקית כדי להאיץ.', 'school-publisher-shortcodes'); ?></span></div>
+                    <div><b><?php esc_html_e('שותפות', 'school-publisher-shortcodes'); ?></b><span><?php esc_html_e('לחבר מוצר, תוכן, הפצה וניסיון בתחום החינוך.', 'school-publisher-shortcodes'); ?></span></div>
+                </div>
+            </section>
+
+            <section class="spb-amir-cta" id="spb-amir-call">
+                <h2><?php esc_html_e('אמיר, שווה לדבר על זה ברצינות.', 'school-publisher-shortcodes'); ?></h2>
+                <p><?php esc_html_e('אם אתה רואה את החיבור בין ספרות, בתי ספר, מוצר דיגיטלי והדפסה מותאמת, יש כאן בסיס למהלך יפה וחכם.', 'school-publisher-shortcodes'); ?></p>
+                <a href="mailto:email@email.com"><?php esc_html_e('לקבוע שיחה', 'school-publisher-shortcodes'); ?></a>
             </section>
         </div>
         <?php
